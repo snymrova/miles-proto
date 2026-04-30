@@ -1,0 +1,1119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Miles Masterclass for Law — Finally, CLE that doesn't feel like CLE</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Deep emerald + champagne + bone palette */
+    --bg-deep: #0a1410;
+    --bg-elev: #0e1814;
+    --bg-card: #131e18;
+    --line: rgba(240,232,214,0.08);
+    --line-strong: rgba(240,232,214,0.18);
+    --ink: #f0e8d6;
+    --ink-mute: #9a9385;
+    --ink-faint: #6b6760;
+    --accent: #c9a875;
+    --accent-bright: #dcc090;
+    --accent-deep: #8a7045;
+    --crimson: #c14e3a;
+    --sage: #5b8a72;
+  }
+  * { -webkit-font-smoothing: antialiased; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg-deep);
+    color: var(--ink);
+    font-family: 'Inter Tight', system-ui, sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+  }
+  .serif { font-family: 'Fraunces', serif; font-weight: 400; letter-spacing: -0.015em; font-variation-settings: "opsz" 144; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .italic-serif { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-variation-settings: "opsz" 144, "SOFT" 100; }
+
+  /* Film grain overlay */
+  .grain::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity: 0.16;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Cinematic gradient mesh */
+  .hero-bg {
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 20%, rgba(201,168,117,0.10), transparent 60%),
+      radial-gradient(ellipse 70% 80% at 90% 80%, rgba(91,138,114,0.08), transparent 60%),
+      radial-gradient(circle at 50% 100%, rgba(193,78,58,0.06), transparent 50%),
+      linear-gradient(180deg, #0a1410 0%, #0d1814 50%, #0a1410 100%);
+  }
+
+  .vignette {
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%);
+  }
+
+  /* Typography refinements */
+  .display-xl {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(3rem, 7.5vw, 7rem);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+  .display-lg {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(2.2rem, 4.6vw, 4.4rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+  .display-md {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(1.6rem, 2.8vw, 2.6rem);
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    font-variation-settings: "opsz" 60, "SOFT" 30;
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* Buttons */
+  .btn-accent {
+    background: var(--accent);
+    color: #1a1308;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-accent:hover {
+    background: var(--accent-bright);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px -8px rgba(201,168,117,0.5);
+  }
+  .btn-ghost {
+    border: 1px solid var(--line-strong);
+    color: var(--ink);
+    background: transparent;
+    transition: all 0.3s ease;
+  }
+  .btn-ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(201,168,117,0.04);
+  }
+
+  /* Hairline rules */
+  .hairline { height: 1px; background: var(--line); }
+  .hairline-strong { height: 1px; background: var(--line-strong); }
+
+  /* Card hover */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .card:hover {
+    border-color: var(--line-strong);
+    transform: translateY(-3px);
+  }
+
+  /* Number ticker */
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(5rem, 14vw, 12rem);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+    background: linear-gradient(180deg, #f0e8d6 0%, #c9a875 70%, #8a7045 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Masterclass tile */
+  .tile {
+    aspect-ratio: 16 / 10;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--line);
+  }
+  .tile-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.25rem;
+    background: linear-gradient(180deg, transparent 30%, rgba(10,20,16,0.9) 100%);
+  }
+  .tile-thumb {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  /* Marquee */
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 60s linear infinite;
+  }
+
+  /* Reveal */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal { animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1) both; }
+
+  /* FAQ */
+  details summary { list-style: none; cursor: pointer; }
+  details summary::-webkit-details-marker { display: none; }
+  details[open] .faq-icon { transform: rotate(45deg); }
+  .faq-icon { transition: transform 0.3s ease; }
+
+  /* Decorative numbering */
+  .num-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.15em;
+  }
+
+  /* Scrollbar hide */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* Comparison */
+  .compare-old {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+  }
+  .compare-new {
+    background: linear-gradient(135deg, rgba(201,168,117,0.06) 0%, rgba(201,168,117,0.02) 100%);
+    border: 1px solid rgba(201,168,117,0.25);
+  }
+
+  /* Phone mockup */
+  .phone-mock {
+    background: linear-gradient(180deg, #1a2620 0%, #0a1410 100%);
+    border-radius: 36px;
+    border: 1px solid var(--line-strong);
+    box-shadow: 
+      0 40px 80px -20px rgba(0,0,0,0.8),
+      0 0 0 12px #0a1410,
+      0 0 0 13px rgba(201,168,117,0.15);
+    aspect-ratio: 9 / 19;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Subtle horizontal lines pattern */
+  .hr-pattern {
+    background-image: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 39px,
+      rgba(240,232,214,0.03) 39px,
+      rgba(240,232,214,0.03) 40px
+    );
+  }
+
+  /* Glow accent */
+  .glow-accent {
+    box-shadow: 0 0 60px -10px rgba(201,168,117,0.4);
+  }
+
+  /* Logo mark */
+  .logo-mark {
+    width: 40px; height: 40px;
+    border: 1px solid var(--accent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--accent);
+    font-size: 1.1rem;
+  }
+
+  /* Reels hover */
+  .reel:hover .reel-overlay { opacity: 1; }
+  .reel-overlay { opacity: 0.5; transition: opacity 0.3s ease; }
+
+  /* Accent underline link */
+  .accent-link {
+    color: var(--accent);
+    border-bottom: 1px solid rgba(201,168,117,0.3);
+    transition: border-color 0.3s ease;
+  }
+  .accent-link:hover { border-color: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- ======================== HERO ======================== -->
+<section class="relative min-h-screen hero-bg grain overflow-hidden">
+
+  <div class="absolute top-0 left-0 right-0 z-20 px-6 md:px-12 pt-6 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <span class="logo-mark">M</span>
+      <div class="hidden md:block">
+        <div class="mono text-[10px] tracking-[0.3em] text-[var(--ink-faint)] uppercase">Miles Masterclass</div>
+        <div class="serif text-sm italic text-[var(--accent)]">for Law</div>
+      </div>
+    </div>
+    <div class="mono text-[10px] tracking-[0.25em] text-[var(--ink-mute)] uppercase">
+      <span class="hidden sm:inline">NASBA Sponsor ID — 149174 · </span>Est. 2011
+    </div>
+  </div>
+
+  <div class="absolute left-6 top-1/2 -translate-y-1/2 z-10 hidden lg:flex flex-col gap-6 items-center">
+    <div class="w-px h-24 bg-[var(--line)]"></div>
+    <div class="mono text-[10px] tracking-[0.3em] text-[var(--ink-faint)] uppercase rotate-180" style="writing-mode: vertical-rl;">CLE · Re-Imagined</div>
+    <div class="w-px h-24 bg-[var(--line)]"></div>
+  </div>
+
+  <div class="absolute right-6 top-1/2 -translate-y-1/2 z-10 hidden lg:flex flex-col gap-6 items-center">
+    <div class="w-px h-24 bg-[var(--line)]"></div>
+    <div class="mono text-[10px] tracking-[0.3em] text-[var(--ink-faint)] uppercase" style="writing-mode: vertical-rl;">Now Casting · Founding Faculty</div>
+    <div class="w-px h-24 bg-[var(--line)]"></div>
+  </div>
+
+  <div class="absolute inset-0 vignette pointer-events-none z-[1]"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-32 md:pt-40 pb-24 reveal">
+
+    <div class="eyebrow mb-8">— A New Format for Continuing Legal Education</div>
+
+    <h1 class="display-xl mb-10">
+      Finally, CLE that<br>
+      <span class="italic-serif text-[var(--accent)]">doesn't feel</span> like CLE.
+    </h1>
+
+    <div class="grid md:grid-cols-12 gap-8 items-end">
+      <p class="md:col-span-6 text-lg md:text-xl text-[var(--ink-mute)] leading-relaxed max-w-xl">
+        You passed the bar. Survived law school. Billed more hours than you care to count. You deserve better than a six-hour webinar and a PDF from 2014.
+      </p>
+
+      <div class="md:col-span-6 md:text-right">
+        <div class="flex flex-col md:items-end gap-4">
+          <div class="flex flex-wrap gap-3 md:justify-end">
+            <a href="#join" class="btn-accent inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm">
+              Get Early Access
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+            <a href="#teach" class="btn-ghost inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm">Teach on Miles Masterclass</a>
+          </div>
+          <div class="mono text-[10px] tracking-[0.25em] text-[var(--ink-faint)] uppercase">
+            Mobile · Cinematic · AI-Native
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-24 md:mt-32 grid grid-cols-2 md:grid-cols-4 gap-px bg-[var(--line)] border border-[var(--line)]">
+      <div class="bg-[var(--bg-deep)] p-6">
+        <div class="serif text-3xl md:text-4xl text-[var(--ink)]">70K<span class="text-[var(--accent)]">+</span></div>
+        <div class="mono text-[10px] tracking-[0.2em] text-[var(--ink-faint)] uppercase mt-2">CPE Professionals · Onboard</div>
+      </div>
+      <div class="bg-[var(--bg-deep)] p-6">
+        <div class="serif text-3xl md:text-4xl text-[var(--ink)]">100<span class="text-[var(--accent)]">%</span></div>
+        <div class="mono text-[10px] tracking-[0.2em] text-[var(--ink-faint)] uppercase mt-2">Mobile-First · Anywhere Credits</div>
+      </div>
+      <div class="bg-[var(--bg-deep)] p-6">
+        <div class="serif text-3xl md:text-4xl text-[var(--ink)]">50<span class="text-[var(--accent)]">+</span></div>
+        <div class="mono text-[10px] tracking-[0.2em] text-[var(--ink-faint)] uppercase mt-2">State Bars · Reportable</div>
+      </div>
+      <div class="bg-[var(--bg-deep)] p-6">
+        <div class="serif text-3xl md:text-4xl text-[var(--ink)]"><span class="italic-serif text-[var(--accent)]">∞</span></div>
+        <div class="mono text-[10px] tracking-[0.2em] text-[var(--ink-faint)] uppercase mt-2">Hours Saved · Vs. Hotel Ballrooms</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="absolute bottom-0 left-0 right-0 z-10 border-t border-[var(--line)] bg-[var(--bg-deep)] overflow-hidden">
+    <div class="marquee-track py-4">
+      <div class="flex items-center gap-12 px-6 mono text-xs tracking-[0.25em] text-[var(--ink-faint)] uppercase whitespace-nowrap">
+        <span>★ Cinematic Production</span>
+        <span>★ AI-Infused Curriculum</span>
+        <span>★ Practitioner-Led</span>
+        <span>★ Reels & Masterclasses</span>
+        <span>★ Gamified Progress</span>
+        <span>★ NASBA Registered</span>
+        <span>★ State Bar Reportable</span>
+        <span>★ Mobile · iOS · Android</span>
+      </div>
+      <div class="flex items-center gap-12 px-6 mono text-xs tracking-[0.25em] text-[var(--ink-faint)] uppercase whitespace-nowrap" aria-hidden="true">
+        <span>★ Cinematic Production</span>
+        <span>★ AI-Infused Curriculum</span>
+        <span>★ Practitioner-Led</span>
+        <span>★ Reels & Masterclasses</span>
+        <span>★ Gamified Progress</span>
+        <span>★ NASBA Registered</span>
+        <span>★ State Bar Reportable</span>
+        <span>★ Mobile · iOS · Android</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ======================== STAT SECTION ======================== -->
+<section class="relative py-32 md:py-48 overflow-hidden">
+  <div class="absolute inset-0 hr-pattern opacity-30"></div>
+
+  <div class="relative max-w-7xl mx-auto px-6 md:px-12 text-center">
+    <div class="eyebrow mb-12">— By The Numbers</div>
+
+    <div class="stat-num">70,000+</div>
+
+    <div class="serif text-2xl md:text-4xl text-[var(--ink)] mt-8 max-w-3xl mx-auto leading-tight">
+      accounting professionals onboard.<br>
+      <span class="italic-serif text-[var(--accent)]">The courtroom is next.</span>
+    </div>
+
+    <div class="mt-16 flex items-center justify-center gap-4">
+      <div class="w-12 h-px bg-[var(--accent)]"></div>
+      <div class="mono text-[10px] tracking-[0.3em] text-[var(--ink-faint)] uppercase">Built by the team behind the #1 AI CPE Platform</div>
+      <div class="w-12 h-px bg-[var(--accent)]"></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ======================== FOUNDING FACULTY ======================== -->
+<section id="teach" class="relative py-24 md:py-40 bg-[var(--bg-elev)] border-y border-[var(--line)]">
+  <div class="max-w-7xl mx-auto px-6 md:px-12">
+
+    <div class="grid md:grid-cols-12 gap-12 items-end mb-20">
+      <div class="md:col-span-7">
+        <div class="eyebrow mb-6">01 / Now Casting</div>
+        <h2 class="display-lg">
+          We have the cameras.<br>
+          <span class="italic-serif text-[var(--accent)]">We're looking for the vision.</span>
+        </h2>
+      </div>
+      <div class="md:col-span-5">
+        <p class="text-base md:text-lg text-[var(--ink-mute)] leading-relaxed">
+          We don't record lectures. We produce legacies. And right now, we're building our founding faculty — the legal rebels, tech-forward practitioners, and disruptors ready to retire the boring CLE webinar for good.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-px bg-[var(--line)] border border-[var(--line)]">
+      <div class="card bg-[var(--bg-card)] p-10 md:p-12 group">
+        <div class="flex items-start justify-between mb-10">
+          <span class="num-tag">— I.</span>
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1" class="text-[var(--accent)]">
+            <rect x="6" y="10" width="24" height="16" rx="1"/>
+            <path d="M14 10V6h8v4M12 26v4h12v-4"/>
+            <circle cx="18" cy="18" r="3"/>
+          </svg>
+        </div>
+        <h3 class="serif text-2xl md:text-3xl mb-4">Your Expertise, <span class="italic-serif text-[var(--accent)]">Cinematic.</span></h3>
+        <p class="text-[var(--ink-mute)] leading-relaxed">
+          Script polish, high-end production, AI integration. You bring the brilliance. We bring the studio.
+        </p>
+      </div>
+
+      <div class="card bg-[var(--bg-card)] p-10 md:p-12 group">
+        <div class="flex items-start justify-between mb-10">
+          <span class="num-tag">— II.</span>
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1" class="text-[var(--accent)]">
+            <circle cx="18" cy="18" r="12"/>
+            <path d="M6 18h24M18 6c4 4 4 20 0 24M18 6c-4 4-4 20 0 24"/>
+          </svg>
+        </div>
+        <h3 class="serif text-2xl md:text-3xl mb-4">A <span class="italic-serif text-[var(--accent)]">Global</span> Stage.</h3>
+        <p class="text-[var(--ink-mute)] leading-relaxed">
+          Position yourself at the forefront of the legal industry's most talked-about learning platform.
+        </p>
+      </div>
+
+      <div class="card bg-[var(--bg-card)] p-10 md:p-12 group">
+        <div class="flex items-start justify-between mb-10">
+          <span class="num-tag">— III.</span>
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1" class="text-[var(--accent)]">
+            <path d="M18 4l3 9h9l-7 5 3 9-8-6-8 6 3-9-7-5h9z"/>
+          </svg>
+        </div>
+        <h3 class="serif text-2xl md:text-3xl mb-4">Build the <span class="italic-serif text-[var(--accent)]">Future.</span></h3>
+        <p class="text-[var(--ink-mute)] leading-relaxed">
+          If you're tired of the old way of teaching, let's script the new one together.
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="#count" class="btn-accent inline-flex items-center gap-2 px-8 py-4 rounded-full text-sm">
+        Count Me In
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#nominate" class="btn-ghost inline-flex items-center gap-2 px-8 py-4 rounded-full text-sm">
+        Nominate a Legal Innovator
+      </a>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ======================== PRACTICE SHIFT ======================== -->
+<section class="relative py-24 md:py-40">
+  <div class="max-w-7xl mx-auto px-6 md:px-12">
+    <div class="grid md:grid-cols-12 gap-12 mb-20">
+      <div class="md:col-span-7">
+        <div class="eyebrow mb-6">02 / The Format</div>
+        <h2 class="display-lg">
+          Most CLE checks a box.<br>
+          <span class="italic-serif text-[var(--accent)]">This one changes how you practice.</span>
+        </h2>
+      </div>
+      <div class="md:col-span-5 flex md:items-end">
+        <p class="text-base md:text-lg text-[var(--ink-mute)] leading-relaxed">
+          Miles Masterclass for Law is built for attorneys who are done with monotone slides and recycled content. It's immersive, intelligent, and designed to actually change how you practice — while checking every credit requirement along the way.
+        </p>
+      </div>
+    </div>
+
+    <div class="space-y-px">
+
+      <article class="grid md:grid-cols-12 gap-8 py-10 border-t border-[var(--line)] group">
+        <div class="md:col-span-2"><span class="num-tag">— 001</span></div>
+        <div class="md:col-span-4">
+          <div class="flex items-center gap-3 mb-2">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.2" class="text-[var(--accent)]">
+              <polygon points="6,4 16,10 6,16"/>
+              <rect x="2" y="3" width="2" height="14"/>
+            </svg>
+            <h3 class="serif text-xl md:text-2xl">Expert-Led Video</h3>
+          </div>
+        </div>
+        <div class="md:col-span-6">
+          <p class="text-[var(--ink-mute)] leading-relaxed">
+            Legal principles delivered through narrative, not narration. Practitioner-led. High-definition. Built to hold attention.
+          </p>
+        </div>
+      </article>
+
+      <article class="grid md:grid-cols-12 gap-8 py-10 border-t border-[var(--line)] group">
+        <div class="md:col-span-2"><span class="num-tag">— 002</span></div>
+        <div class="md:col-span-4">
+          <div class="flex items-center gap-3 mb-2">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.2" class="text-[var(--accent)]">
+              <rect x="4" y="4" width="12" height="12" rx="1"/>
+              <circle cx="8" cy="8" r="1" fill="currentColor"/>
+              <circle cx="12" cy="12" r="1" fill="currentColor"/>
+              <path d="M8 12l4-4"/>
+            </svg>
+            <h3 class="serif text-xl md:text-2xl">AI-Infused Curriculum</h3>
+          </div>
+        </div>
+        <div class="md:col-span-6">
+          <p class="text-[var(--ink-mute)] leading-relaxed">
+            Master the law while mastering the machine. Every lesson includes the AI punch — practical workflows to bill smarter and research faster.
+          </p>
+        </div>
+      </article>
+
+      <article class="grid md:grid-cols-12 gap-8 py-10 border-t border-b border-[var(--line)] group">
+        <div class="md:col-span-2"><span class="num-tag">— 003</span></div>
+        <div class="md:col-span-4">
+          <div class="flex items-center gap-3 mb-2">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.2" class="text-[var(--accent)]">
+              <rect x="2" y="6" width="16" height="10" rx="1"/>
+              <path d="M6 6V3M14 6V3"/>
+            </svg>
+            <h3 class="serif text-xl md:text-2xl">Binge-Worthy Formats</h3>
+          </div>
+        </div>
+        <div class="md:col-span-6">
+          <p class="text-[var(--ink-mute)] leading-relaxed">
+            Deep-dive masterclasses when you have time. High-impact Legal Reels when you don't. Your CLE, your pace, any device.
+          </p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ======================== STREAMING / CAROUSEL ======================== -->
+<section class="relative py-24 md:py-40 bg-[var(--bg-elev)] border-y border-[var(--line)] overflow-hidden">
+
+  <div class="max-w-7xl mx-auto px-6 md:px-12 mb-16">
+    <div class="grid md:grid-cols-12 gap-12 items-end">
+      <div class="md:col-span-7">
+        <div class="eyebrow mb-6">03 / The Library</div>
+        <h2 class="display-lg">
+          Think less continuing education.<br>
+          <span class="italic-serif text-[var(--accent)]">More career streaming platform.</span>
+        </h2>
+      </div>
+      <div class="md:col-span-5 flex md:items-end">
+        <p class="text-base md:text-lg text-[var(--ink-mute)] leading-relaxed">
+          The way lawyers learn has changed. The way CLE is delivered hasn't — until now.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6 md:px-12 mb-4 flex items-center justify-between">
+    <h3 class="serif text-xl md:text-2xl">Masterclasses</h3>
+    <span class="mono text-[10px] tracking-[0.25em] text-[var(--ink-faint)] uppercase">Real practitioners · Real workflows</span>
+  </div>
+
+  <div class="overflow-x-auto no-scrollbar">
+    <div class="flex gap-4 px-6 md:px-12 pb-8" style="min-width: max-content;">
+
+      <div class="tile w-[300px] md:w-[420px] reel">
+        <div class="tile-thumb" style="background: linear-gradient(135deg, #1a1308 0%, #3d2f17 50%, #6b5023 100%);"></div>
+        <div class="absolute inset-0 reel-overlay" style="background: radial-gradient(circle at 30% 30%, rgba(201,168,117,0.22), transparent 50%);"></div>
+        <div class="tile-inner">
+          <div class="mono text-[9px] tracking-[0.25em] text-[var(--accent)] uppercase mb-2">Masterclass · 04 Episodes</div>
+          <h4 class="serif text-2xl md:text-3xl mb-1">AI in Litigation Strategy</h4>
+          <div class="mono text-[10px] text-[var(--ink-faint)] uppercase tracking-[0.15em]">Hon. (Ret.) M. Ashworth</div>
+        </div>
+      </div>
+
+      <div class="tile w-[300px] md:w-[420px] reel">
+        <div class="tile-thumb" style="background: linear-gradient(135deg, #0a1f1a 0%, #144037 50%, #1f6a55 100%);"></div>
+        <div class="absolute inset-0 reel-overlay" style="background: radial-gradient(circle at 70% 30%, rgba(91,138,114,0.3), transparent 50%);"></div>
+        <div class="tile-inner">
+          <div class="mono text-[9px] tracking-[0.25em] text-[var(--accent)] uppercase mb-2">Masterclass · 06 Episodes</div>
+          <h4 class="serif text-2xl md:text-3xl mb-1">The Modern Trial Lawyer</h4>
+          <div class="mono text-[10px] text-[var(--ink-faint)] uppercase tracking-[0.15em]">D. Reyes, Esq.</div>
+        </div>
+      </div>
+
+      <div class="tile w-[300px] md:w-[420px] reel">
+        <div class="tile-thumb" style="background: linear-gradient(135deg, #2a0e10 0%, #551a20 50%, #771f2a 100%);"></div>
+        <div class="absolute inset-0 reel-overlay" style="background: radial-gradient(circle at 50% 70%, rgba(193,78,58,0.28), transparent 50%);"></div>
+        <div class="tile-inner">
+          <div class="mono text-[9px] tracking-[0.25em] text-[var(--accent)] uppercase mb-2">Masterclass · 05 Episodes</div>
+          <h4 class="serif text-2xl md:text-3xl mb-1">Ethics in the Algorithm</h4>
+          <div class="mono text-[10px] text-[var(--ink-faint)] uppercase tracking-[0.15em]">Prof. K. Whitfield</div>
+        </div>
+      </div>
+
+      <div class="tile w-[300px] md:w-[420px] reel">
+        <div class="tile-thumb" style="background: linear-gradient(135deg, #0a1a14 0%, #1a3a2a 50%, #2a5544 100%);"></div>
+        <div class="absolute inset-0 reel-overlay" style="background: radial-gradient(circle at 30% 70%, rgba(201,168,117,0.22), transparent 50%);"></div>
+        <div class="tile-inner">
+          <div class="mono text-[9px] tracking-[0.25em] text-[var(--accent)] uppercase mb-2">Masterclass · 08 Episodes</div>
+          <h4 class="serif text-2xl md:text-3xl mb-1">M&A Deal Mechanics</h4>
+          <div class="mono text-[10px] text-[var(--ink-faint)] uppercase tracking-[0.15em]">S. Chen, Partner @ Latham</div>
+        </div>
+      </div>
+
+      <div class="tile w-[300px] md:w-[420px] reel">
+        <div class="tile-thumb" style="background: linear-gradient(135deg, #1a1408 0%, #2a2014 50%, #3a3020 100%);"></div>
+        <div class="absolute inset-0 reel-overlay" style="background: radial-gradient(circle at 70% 50%, rgba(201,168,117,0.20), transparent 50%);"></div>
+        <div class="tile-inner">
+          <div class="mono text-[9px] tracking-[0.25em] text-[var(--accent)] uppercase mb-2">Masterclass · 07 Episodes</div>
+          <h4 class="serif text-2xl md:text-3xl mb-1">Privacy, Data &amp; The Cloud</h4>
+          <div class="mono text-[10px] text-[var(--ink-faint)] uppercase tracking-[0.15em]">A. Iqbal, GC @ Stripe</div>
+        </div>
+      </div>
+
+      <div class="tile w-[300px] md:w-[420px] reel">
+        <div class="tile-thumb" style="background: linear-gradient(135deg, #2a1f08 0%, #553a17 50%, #77552a 100%);"></div>
+        <div class="absolute inset-0 reel-overlay" style="background: radial-gradient(circle at 50% 30%, rgba(201,168,117,0.24), transparent 50%);"></div>
+        <div class="tile-inner">
+          <div class="mono text-[9px] tracking-[0.25em] text-[var(--accent)] uppercase mb-2">Masterclass · 03 Episodes</div>
+          <h4 class="serif text-2xl md:text-3xl mb-1">The Solo Practice Playbook</h4>
+          <div class="mono text-[10px] text-[var(--ink-faint)] uppercase tracking-[0.15em]">R. Goldstein, Esq.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6 md:px-12 mb-4 mt-12 flex items-center justify-between">
+    <h3 class="serif text-xl md:text-2xl">Legal Reels <span class="italic-serif text-[var(--accent)] text-base">(under 60s)</span></h3>
+    <span class="mono text-[10px] tracking-[0.25em] text-[var(--ink-faint)] uppercase">Sharp · Practical · On the go</span>
+  </div>
+
+  <div class="overflow-x-auto no-scrollbar">
+    <div class="flex gap-3 px-6 md:px-12 pb-4" style="min-width: max-content;">
+      <div class="w-[160px] aspect-[9/16] rounded-md border border-[var(--line)] reel relative overflow-hidden" style="background: linear-gradient(180deg, #2a1f08, #0a1410);">
+        <div class="absolute inset-0 reel-overlay" style="background: radial-gradient(circle at 50% 30%, rgba(201,168,117,0.2), transparent);"></div>
+        <div class="absolute bottom-3 left-3 right-3">
+          <div class="serif text-sm leading-tight">Drafting NDAs with GPT</div>
+          <div class="mono text-[8px] tracking-[0.2em] text-[var(--ink-faint)] uppercase mt-1">0:48 · Reel</div>
+        </div>
+      </div>
+      <div class="w-[160px] aspect-[9/16] rounded-md border border-[var(--line)] reel relative overflow-hidden" style="background: linear-gradient(180deg, #0a1f1a, #0a1410);">
+        <div class="absolute inset-0 reel-overlay" style="background: radial-gradient(circle at 50% 30%, rgba(91,138,114,0.25), transparent);"></div>
+        <div class="absolute bottom-3 left-3 right-3">
+          <div class="serif text-sm leading-tight">3 Cross-Exam Tactics</div>
+          <div class="mono text-[8px] tracking-[0.2em] text-[var(--ink-faint)] uppercase mt-1">0:54 · Reel</div>
+        </div>
+      </div>
+      <div class="w-[160px] aspect-[9/16] rounded-md border border-[var(--line)] reel relative overflow-hidden" style="background: linear-gradient(180deg, #2a0e14, #0a1410);">
+        <div class="absolute inset-0 reel-overlay" style="background: radial-gradient(circle at 50% 30%, rgba(193,78,58,0.22), transparent);"></div>
+        <div class="absolute bottom-3 left-3 right-3">
+          <div class="serif text-sm leading-tight">Privilege in Slack</div>
+          <div class="mono text-[8px] tracking-[0.2em] text-[var(--ink-faint)] uppercase mt-1">0:42 · Reel</div>
+        </div>
+      </div>
+      <div class="w-[160px] aspect-[9/16] rounded-md border border-[var(--line)] reel relative overflow-hidden" style="background: linear-gradient(180deg, #1a1408, #0a1410);">
+        <div class="absolute inset-0 reel-overlay" style="background: radial-gradient(circle at 50% 30%, rgba(201,168,117,0.22), transparent);"></div>
+        <div class="absolute bottom-3 left-3 right-3">
+          <div class="serif text-sm leading-tight">Billable Hours, Honestly</div>
+          <div class="mono text-[8px] tracking-[0.2em] text-[var(--ink-faint)] uppercase mt-1">0:55 · Reel</div>
+        </div>
+      </div>
+      <div class="w-[160px] aspect-[9/16] rounded-md border border-[var(--line)] reel relative overflow-hidden" style="background: linear-gradient(180deg, #0a1a14, #0a1410);">
+        <div class="absolute inset-0 reel-overlay" style="background: radial-gradient(circle at 50% 30%, rgba(91,138,114,0.22), transparent);"></div>
+        <div class="absolute bottom-3 left-3 right-3">
+          <div class="serif text-sm leading-tight">RAG for Discovery</div>
+          <div class="mono text-[8px] tracking-[0.2em] text-[var(--ink-faint)] uppercase mt-1">0:51 · Reel</div>
+        </div>
+      </div>
+      <div class="w-[160px] aspect-[9/16] rounded-md border border-[var(--line)] reel relative overflow-hidden" style="background: linear-gradient(180deg, #2a1f14, #0a1410);">
+        <div class="absolute inset-0 reel-overlay" style="background: radial-gradient(circle at 50% 30%, rgba(201,168,117,0.22), transparent);"></div>
+        <div class="absolute bottom-3 left-3 right-3">
+          <div class="serif text-sm leading-tight">When Not to Settle</div>
+          <div class="mono text-[8px] tracking-[0.2em] text-[var(--ink-faint)] uppercase mt-1">0:39 · Reel</div>
+        </div>
+      </div>
+      <div class="w-[160px] aspect-[9/16] rounded-md border border-[var(--line)] reel relative overflow-hidden" style="background: linear-gradient(180deg, #1a1f2a, #0a1410);">
+        <div class="absolute inset-0 reel-overlay" style="background: radial-gradient(circle at 50% 30%, rgba(91,138,114,0.18), transparent);"></div>
+        <div class="absolute bottom-3 left-3 right-3">
+          <div class="serif text-sm leading-tight">Closing Arguments 101</div>
+          <div class="mono text-[8px] tracking-[0.2em] text-[var(--ink-faint)] uppercase mt-1">0:47 · Reel</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ======================== WHY THIS MATTERS NOW ======================== -->
+<section class="relative py-24 md:py-40">
+  <div class="max-w-7xl mx-auto px-6 md:px-12">
+
+    <div class="text-center mb-20">
+      <div class="eyebrow mb-6">04 / The Reckoning</div>
+      <h2 class="display-lg">
+        Why This <span class="italic-serif text-[var(--accent)]">Matters</span> Now
+      </h2>
+      <p class="mt-6 text-[var(--ink-mute)] max-w-xl mx-auto">
+        CLE hasn't changed. The legal profession has.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6 md:gap-8">
+
+      <div class="compare-old p-8 md:p-12 rounded-sm relative">
+        <div class="absolute top-6 right-6 mono text-[10px] tracking-[0.25em] text-[var(--ink-faint)] uppercase">Circa 2011</div>
+        <h3 class="serif text-2xl md:text-3xl mb-8 text-[var(--ink-mute)]">The Old Way</h3>
+        <ul class="space-y-5">
+          <li class="flex gap-4 items-start text-[var(--ink-mute)]">
+            <span class="text-[var(--crimson)] mt-1 text-lg">✗</span>
+            <span>6-hour seminars in a fluorescent hotel ballroom</span>
+          </li>
+          <li class="flex gap-4 items-start text-[var(--ink-mute)]">
+            <span class="text-[var(--crimson)] mt-1 text-lg">✗</span>
+            <span>PDF slides that haven't changed since 2011</span>
+          </li>
+          <li class="flex gap-4 items-start text-[var(--ink-mute)]">
+            <span class="text-[var(--crimson)] mt-1 text-lg">✗</span>
+            <span>Zero AI content. Or worse — one slide about it.</span>
+          </li>
+          <li class="flex gap-4 items-start text-[var(--ink-mute)]">
+            <span class="text-[var(--crimson)] mt-1 text-lg">✗</span>
+            <span>Mandatory. Forgettable. Done.</span>
+          </li>
+          <li class="flex gap-4 items-start text-[var(--ink-mute)]">
+            <span class="text-[var(--crimson)] mt-1 text-lg">✗</span>
+            <span>No flexibility. No mobile. No reason to pay attention.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="compare-new p-8 md:p-12 rounded-sm relative glow-accent">
+        <div class="absolute top-6 right-6 mono text-[10px] tracking-[0.25em] text-[var(--accent)] uppercase">— Now</div>
+        <h3 class="serif text-2xl md:text-3xl mb-8">The Miles Masterclass Way</h3>
+        <ul class="space-y-5">
+          <li class="flex gap-4 items-start">
+            <span class="text-[var(--accent)] mt-1 text-lg">✦</span>
+            <span>Cinematic masterclasses from legal innovators</span>
+          </li>
+          <li class="flex gap-4 items-start">
+            <span class="text-[var(--accent)] mt-1 text-lg">✦</span>
+            <span>AI woven into every module — practical, not theoretical</span>
+          </li>
+          <li class="flex gap-4 items-start">
+            <span class="text-[var(--accent)] mt-1 text-lg">✦</span>
+            <span>Masterclasses, Reels, podcasts, and live premieres</span>
+          </li>
+          <li class="flex gap-4 items-start">
+            <span class="text-[var(--accent)] mt-1 text-lg">✦</span>
+            <span>Gamified. Points. Streaks. Leaderboards.</span>
+          </li>
+          <li class="flex gap-4 items-start">
+            <span class="text-[var(--accent)] mt-1 text-lg">✦</span>
+            <span>Mobile-first. Learn anywhere. Credits everywhere.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-24 max-w-4xl mx-auto text-center">
+      <div class="serif text-2xl md:text-4xl leading-tight text-[var(--ink)]">
+        CLE should help you grow,<br>
+        <span class="italic-serif text-[var(--accent)]">not just comply.</span>
+      </div>
+      <div class="mt-8 grid md:grid-cols-3 gap-6 text-left">
+        <div>
+          <span class="num-tag block mb-2">— Not</span>
+          <p class="text-[var(--ink-mute)] text-sm">"AI is changing law."</p>
+          <span class="num-tag block mb-2 mt-3 text-[var(--accent)]">— But</span>
+          <p class="text-[var(--ink)] text-sm">Here's how to use it in your next client matter.</p>
+        </div>
+        <div>
+          <span class="num-tag block mb-2">— Not</span>
+          <p class="text-[var(--ink-mute)] text-sm">"Here are the principles."</p>
+          <span class="num-tag block mb-2 mt-3 text-[var(--accent)]">— But</span>
+          <p class="text-[var(--ink)] text-sm">Here's how this changes Monday morning.</p>
+        </div>
+        <div>
+          <span class="num-tag block mb-2">— Not</span>
+          <p class="text-[var(--ink-mute)] text-sm">A checkbox.</p>
+          <span class="num-tag block mb-2 mt-3 text-[var(--accent)]">— But</span>
+          <p class="text-[var(--ink)] text-sm">A competitive edge.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ======================== ON THE GO / APP ======================== -->
+<section class="relative py-24 md:py-40 bg-[var(--bg-elev)] border-y border-[var(--line)] overflow-hidden">
+
+  <div class="absolute inset-0 hr-pattern opacity-50"></div>
+
+  <div class="relative max-w-7xl mx-auto px-6 md:px-12">
+    <div class="grid lg:grid-cols-12 gap-12 items-center">
+
+      <div class="lg:col-span-5 flex justify-center order-2 lg:order-1">
+        <div class="phone-mock w-[260px] md:w-[300px]">
+          <div class="absolute top-0 left-0 right-0 h-7 flex items-center justify-between px-6 z-20">
+            <span class="mono text-[9px] text-[var(--ink-mute)]">9:41</span>
+            <div class="flex gap-1">
+              <div class="w-3 h-2 border border-[var(--ink-mute)] rounded-sm"></div>
+              <div class="w-1 h-2 bg-[var(--ink-mute)]"></div>
+            </div>
+          </div>
+
+          <div class="absolute top-1.5 left-1/2 -translate-x-1/2 w-20 h-5 bg-black rounded-full z-30"></div>
+
+          <div class="absolute top-12 left-3 right-3 bottom-3 rounded-3xl overflow-hidden">
+            <div class="absolute inset-0" style="background: linear-gradient(180deg, #1a1308 0%, #3d2f17 40%, #0a1410 100%);"></div>
+            <div class="absolute inset-0" style="background: radial-gradient(circle at 50% 20%, rgba(201,168,117,0.45), transparent 60%);"></div>
+
+            <div class="relative p-4 h-full flex flex-col">
+              <div class="flex items-center justify-between mb-4">
+                <div class="serif italic text-[var(--accent)] text-sm">Miles Masterclass</div>
+                <div class="w-7 h-7 rounded-full bg-[var(--accent)]/20 border border-[var(--accent)]/40"></div>
+              </div>
+
+              <div class="mono text-[8px] tracking-[0.2em] text-[var(--accent)] uppercase mb-2">— Featured Today</div>
+              <div class="serif text-xl leading-tight mb-1">AI in Litigation Strategy</div>
+              <div class="mono text-[8px] text-[var(--ink-faint)] uppercase tracking-[0.15em] mb-4">04 episodes · 2.5 CLE credits</div>
+
+              <button class="bg-[var(--accent)] text-[#1a1308] mono text-[10px] tracking-[0.15em] uppercase py-2 rounded-full mb-4">▶ Resume</button>
+
+              <div class="mono text-[8px] tracking-[0.2em] text-[var(--ink-mute)] uppercase mb-2">CLE Tracker</div>
+              <div class="bg-black/30 rounded-lg p-3 mb-3">
+                <div class="flex items-center justify-between mb-1.5">
+                  <div class="text-xs">2026 Compliance</div>
+                  <div class="serif text-sm text-[var(--accent)]">14<span class="text-[var(--ink-mute)]">/24</span></div>
+                </div>
+                <div class="h-1 bg-[var(--ink-faint)]/30 rounded-full overflow-hidden">
+                  <div class="h-full bg-[var(--accent)]" style="width: 58%"></div>
+                </div>
+              </div>
+
+              <div class="mono text-[8px] tracking-[0.2em] text-[var(--ink-mute)] uppercase mb-2">Continue Watching</div>
+              <div class="grid grid-cols-2 gap-2 mt-auto">
+                <div class="aspect-[16/10] rounded-md" style="background: linear-gradient(135deg, #0a1f1a, #1f6a55);"></div>
+                <div class="aspect-[16/10] rounded-md" style="background: linear-gradient(135deg, #2a0e10, #771f2a);"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-7 order-1 lg:order-2">
+        <div class="eyebrow mb-6">05 / Anywhere, Anytime</div>
+        <h2 class="display-lg mb-8">
+          CLE <span class="italic-serif text-[var(--accent)]">On the Go.</span>
+        </h2>
+        <p class="text-base md:text-lg text-[var(--ink-mute)] leading-relaxed mb-10 max-w-xl">
+          Built for lawyers who bill by the hour and learn between them.
+        </p>
+
+        <ul class="space-y-4 mb-12">
+          <li class="flex gap-4 items-start py-4 border-t border-[var(--line)]">
+            <span class="num-tag pt-1">i.</span>
+            <span class="text-[var(--ink)]">Download your CLE certificates instantly</span>
+          </li>
+          <li class="flex gap-4 items-start py-4 border-t border-[var(--line)]">
+            <span class="num-tag pt-1">ii.</span>
+            <span class="text-[var(--ink)]">Track progress with the in-app CLE tracker</span>
+          </li>
+          <li class="flex gap-4 items-start py-4 border-t border-[var(--line)]">
+            <span class="num-tag pt-1">iii.</span>
+            <span class="text-[var(--ink)]">Access all courses and features from your phone</span>
+          </li>
+          <li class="flex gap-4 items-start py-4 border-t border-b border-[var(--line)]">
+            <span class="num-tag pt-1">iv.</span>
+            <span class="text-[var(--ink)]">Sync learning across all devices</span>
+          </li>
+        </ul>
+
+        <p class="serif text-xl md:text-2xl text-[var(--ink-mute)] mb-10 leading-snug max-w-xl">
+          The bar sets the requirement.<br>
+          Miles Masterclass makes it something <span class="italic-serif text-[var(--accent)]">you'd do even if it didn't.</span>
+        </p>
+
+        <div class="flex flex-wrap items-center gap-4">
+          <a href="#" class="flex items-center gap-3 px-5 py-3 border border-[var(--line-strong)] rounded-lg hover:border-[var(--accent)] transition-colors">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+            <div>
+              <div class="mono text-[8px] tracking-[0.2em] text-[var(--ink-faint)] uppercase">Get it on</div>
+              <div class="text-sm">App Store</div>
+            </div>
+          </a>
+          <a href="#" class="flex items-center gap-3 px-5 py-3 border border-[var(--line-strong)] rounded-lg hover:border-[var(--accent)] transition-colors">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.807 1.626a1 1 0 010 1.732l-2.808 1.626L15.293 12l2.405-2.492zM5.864 2.658L16.802 8.99l-2.302 2.302-8.636-8.634z"/></svg>
+            <div>
+              <div class="mono text-[8px] tracking-[0.2em] text-[var(--ink-faint)] uppercase">Get it on</div>
+              <div class="text-sm">Play Store</div>
+            </div>
+          </a>
+
+          <div class="flex items-center gap-3 ml-2">
+            <div class="w-20 h-20 bg-white rounded p-2 flex items-center justify-center">
+              <svg viewBox="0 0 21 21" class="w-full h-full">
+                <rect width="21" height="21" fill="white"/>
+                <g fill="black">
+                  <rect x="0" y="0" width="7" height="7"/><rect x="1" y="1" width="5" height="5" fill="white"/><rect x="2" y="2" width="3" height="3"/>
+                  <rect x="14" y="0" width="7" height="7"/><rect x="15" y="1" width="5" height="5" fill="white"/><rect x="16" y="2" width="3" height="3"/>
+                  <rect x="0" y="14" width="7" height="7"/><rect x="1" y="15" width="5" height="5" fill="white"/><rect x="2" y="16" width="3" height="3"/>
+                  <rect x="9" y="0" width="1" height="1"/><rect x="11" y="0" width="1" height="1"/><rect x="8" y="2" width="1" height="1"/><rect x="10" y="3" width="1" height="1"/><rect x="12" y="2" width="1" height="1"/>
+                  <rect x="0" y="9" width="1" height="1"/><rect x="2" y="9" width="1" height="1"/><rect x="4" y="10" width="1" height="1"/><rect x="6" y="9" width="1" height="1"/>
+                  <rect x="8" y="8" width="1" height="1"/><rect x="9" y="9" width="1" height="1"/><rect x="11" y="8" width="1" height="1"/><rect x="13" y="9" width="1" height="1"/>
+                  <rect x="10" y="11" width="1" height="1"/><rect x="12" y="12" width="1" height="1"/><rect x="9" y="13" width="1" height="1"/>
+                  <rect x="14" y="9" width="1" height="1"/><rect x="16" y="10" width="1" height="1"/><rect x="18" y="9" width="1" height="1"/><rect x="20" y="11" width="1" height="1"/>
+                  <rect x="14" y="12" width="1" height="1"/><rect x="16" y="13" width="1" height="1"/><rect x="18" y="12" width="1" height="1"/>
+                  <rect x="9" y="15" width="1" height="1"/><rect x="11" y="16" width="1" height="1"/><rect x="13" y="15" width="1" height="1"/>
+                  <rect x="14" y="14" width="1" height="1"/><rect x="16" y="16" width="1" height="1"/><rect x="18" y="14" width="1" height="1"/><rect x="20" y="16" width="1" height="1"/>
+                  <rect x="15" y="18" width="1" height="1"/><rect x="17" y="19" width="1" height="1"/><rect x="19" y="18" width="1" height="1"/>
+                </g>
+              </svg>
+            </div>
+            <div class="mono text-[10px] tracking-[0.2em] text-[var(--ink-mute)] uppercase max-w-[80px]">Scan to download</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ======================== FINAL CTA ======================== -->
+<section id="join" class="relative py-32 md:py-48 overflow-hidden">
+
+  <div class="absolute inset-0">
+    <div class="absolute inset-0" style="background: radial-gradient(ellipse at center, rgba(201,168,117,0.08), transparent 60%);"></div>
+    <div class="absolute inset-0 hr-pattern opacity-40"></div>
+  </div>
+
+  <div class="relative max-w-5xl mx-auto px-6 md:px-12 text-center">
+
+    <div class="eyebrow mb-8">— The Final Frame</div>
+
+    <h2 class="display-xl mb-4">Miles Masterclass:</h2>
+    <h2 class="display-xl"><span class="italic-serif text-[var(--accent)]">Now, for law.</span></h2>
+
+    <div class="my-12 flex items-center justify-center gap-4">
+      <div class="w-12 h-px bg-[var(--accent-deep)]"></div>
+      <span class="mono text-[10px] tracking-[0.3em] text-[var(--ink-mute)] uppercase">Built by the team behind the #1 AI CPE Platform</span>
+      <div class="w-12 h-px bg-[var(--accent-deep)]"></div>
+    </div>
+
+    <p class="serif text-xl md:text-2xl text-[var(--ink-mute)] max-w-3xl mx-auto leading-snug">
+      Whether you are here to refine your practice or to lead the next generation of legal discourse, the era of <span class="italic-serif text-[var(--accent)]">Checkbox CLE</span> has officially ended.
+    </p>
+
+    <div class="mt-14 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="#teach-cta" class="btn-ghost inline-flex items-center gap-2 px-8 py-4 rounded-full text-sm">
+        Teach on Miles Masterclass
+      </a>
+      <a href="#early" class="btn-accent inline-flex items-center gap-2 px-8 py-4 rounded-full text-sm">
+        Get Early Access
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ======================== FAQ ======================== -->
+<section class="relative py-24 md:py-40 bg-[var(--bg-elev)] border-t border-[var(--line)]">
+  <div class="max-w-5xl mx-auto px-6 md:px-12">
+
+    <div class="mb-16">
+      <div class="eyebrow mb-6">06 / Q & A</div>
+      <h2 class="display-lg">
+        Frequently Asked <span class="italic-serif text-[var(--accent)]">Questions.</span>
+      </h2>
+    </div>
+
+    <div class="flex flex-wrap gap-2 mb-10">
+      <span class="mono text-[10px] tracking-[0.2em] uppercase px-4 py-2 border border-[var(--accent)] text-[var(--accent)] rounded-full">General</span>
+      <span class="mono text-[10px] tracking-[0.2em] uppercase px-4 py-2 border border-[var(--line-strong)] text-[var(--ink-mute)] rounded-full">Credits & Reporting</span>
+      <span class="mono text-[10px] tracking-[0.2em] uppercase px-4 py-2 border border-[var(--line-strong)] text-[var(--ink-mute)] rounded-full">Payment, Cancellation & Refund</span>
+      <span class="mono text-[10px] tracking-[0.2em] uppercase px-4 py-2 border border-[var(--line-strong)] text-[var(--ink-mute)] rounded-full">Technical Support</span>
+    </div>
+
+    <div class="space-y-px border-t border-[var(--line)]">
+
+      <details class="border-b border-[var(--line)] group" open>
+        <summary class="flex items-center justify-between py-6 group-hover:text-[var(--accent)] transition-colors">
+          <div class="flex items-center gap-6">
+            <span class="num-tag">— 01</span>
+            <span class="serif text-lg md:text-xl">What makes Miles Masterclass different from a standard CLE webinar?</span>
+          </div>
+          <span class="faq-icon text-[var(--accent)] text-2xl serif">+</span>
+        </summary>
+        <div class="pb-6 pl-16 pr-6 text-[var(--ink-mute)] leading-relaxed">
+          Most CLE is a recorded lecture with a quiz attached. Miles Masterclass is cinematic — scripted, shot, and edited like a streaming series, with practitioner-led narrative, AI workflows woven into every module, and Reels for when you only have 60 seconds between meetings. You earn credits the same way; the experience is nothing like it.
+        </div>
+      </details>
+
+      <details class="border-b border-[var(--line)] group">
+        <summary class="flex items-center justify-between py-6 group-hover:text-[var(--accent)] transition-colors">
+          <div class="flex items-center gap-6">
+            <span class="num-tag">— 02</span>
+            <span class="serif text-lg md:text-xl">Will my CLE credits be reportable in my state?</span>
+          </div>
+          <span class="faq-icon text-[var(--accent)] text-2xl serif">+</span>
+        </summary>
+        <div class="pb-6 pl-16 pr-6 text-[var(--ink-mute)] leading-relaxed">
+          Yes. Miles Education is a NASBA-registered sponsor (ID 149174) and we are pursuing accreditation in all 50 state bars. State boards have final authority on individual course acceptance — we publish state-by-state status as we go.
+        </div>
+      </details>
+
+      <details class="border-b border-[var(--line)] group">
+        <summary class="flex items-center justify-between py-6 group-hover:text-[var(--accent)] transition-colors">
+          <div class="flex items-center gap-6">
+            <span class="num-tag">— 03</span>
+            <span class="serif text-lg md:text-xl">Do I really earn credits watching Reels under a minute?</span>
+          </div>
+          <span class="faq-icon text-[var(--accent)] text-2xl serif">+</span>
+        </summary>
+        <div class="pb-6 pl-16 pr-6 text-[var(--ink-mute)] leading-relaxed">
+          Reels are not for credits — they are for momentum. Masterclasses earn the credits. Reels keep you sharp between them.
+        </div>
+      </details>
+
+      <details class="border-b border-[var(--line)] group">
+        <summary class="flex items-center justify-between py-6 group-hover:text-[var(--accent)] transition-colors">
+          <div class="flex items-center gap-6">
+            <span class="num-tag">— 04</span>
+            <span class="serif text-lg md:text-xl">What does it cost — and what's your refund policy?</span>
+          </div>
+          <span class="faq-icon text-[var(--accent)] text-2xl serif">+</span>
+        </summary>
+        <div class="pb-6 pl-16 pr-6 text-[var(--ink-mute)] leading-relaxed">
+          Pricing details are released with our public launch. Founding faculty cohort and early-access members receive lifetime preferred pricing. Cancellation and refund terms follow our published policy — straightforward and pro-rated.
+        </div>
+      </details>
+
+      <details class="border-b border-[var(--line)] group">
+        <summary class="flex items-center justify-between py-6 group-hover:text-[var(--accent)] transition-colors">
+          <div class="flex items-center gap-6">
+            <span class="num-tag">— 05</span>
+            <span class="serif text-lg md:text-xl">I'm a practitioner — how do I become founding faculty?</span>
+          </div>
+          <span class="faq-icon text-[var(--accent)] text-2xl serif">+</span>
+        </summary>
+        <div class="pb-6 pl-16 pr-6 text-[var(--ink-mute)] leading-relaxed">
+          Apply through the "Count Me In" link or have someone <a href="#" class="accent-link">nominate you</a>. Selected faculty get a script consultation, a full studio production day, and an equity-style revenue share on every credit earned through their masterclass.
+        </div>
+      </details>
+
+      <details class="border-b border-[var(--line)] group">
+        <summary class="flex items-center justify-between py-6 group-hover:text-[var(--accent)] transition-colors">
+          <div class="flex items-center gap-6">
+            <span class="num-tag">— 06</span>
+            <span class="serif text-lg md:text-xl">Does it work offline / on the road / at 30,000 feet?</span>
+          </div>
+          <span class="faq-icon text-[var(--accent)] text-2xl serif">+</span>
+        </summary>
+        <div class="pb-6 pl-16 pr-6 text-[var(--ink-mute)] leading-relaxed">
+          Mobile-first by design. Download masterclasses for offline viewing, sync watch progress when you reconnect, and pull certificates directly from the app.
+        </div>
+      </details>
+
+    </div>
+
+    <div class="mt-20 text-center">
+      <p class="serif italic text-xl text-[var(--ink-mute)] mb-6">Still have questions?</p>
+      <a href="mailto:hello@milesmasterclass.com" class="accent-link mono text-sm tracking-[0.15em] uppercase">hello@milesmasterclass.com</a>
+    </div>
+
+  </div>
+</section>
+
+<div class="py-12 text-center bg-[var(--bg-deep)]">
+  <div class="max-w-5xl mx-auto px-6 flex items-center justify-center gap-4">
+    <div class="w-16 h-px bg-[var(--accent-deep)]"></div>
+    <span class="serif italic text-[var(--accent)] text-lg">fin.</span>
+    <div class="w-16 h-px bg-[var(--accent-deep)]"></div>
+  </div>
+</div>
+
+</body>
+</html>
