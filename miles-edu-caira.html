@@ -1,0 +1,1954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAIRA · The AI credential built for accountants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0908;
+    --bg-warm: #0d0b08;
+    --surface: #16130f;
+    --surface-2: #1d1914;
+    --surface-3: #25201a;
+    --border: #2a2520;
+    --border-bright: #3a342c;
+    --ink: #faf6ee;
+    --ink-muted: #a8a08e;
+    --ink-dim: #6b6356;
+    --gold: #f5b042;
+    --gold-bright: #ffc66a;
+    --gold-deep: #c08820;
+    --gold-glow: rgba(245, 176, 66, 0.15);
+    --green: #4ade80;
+    --green-dim: rgba(74, 222, 128, 0.15);
+    --red: #ef4444;
+    --display: 'Fraunces', Georgia, serif;
+    --body: 'Be Vietnam Pro', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-weight: 400;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* atmospheric background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 800px 600px at 80% -10%, var(--gold-glow), transparent 50%),
+      radial-gradient(ellipse 600px 800px at 0% 50%, rgba(74, 222, 128, 0.04), transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* grain texture */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: overlay;
+  }
+
+  main, header, footer { position: relative; z-index: 2; }
+
+  /* HEADER */
+  header {
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+    background: rgba(10, 9, 8, 0.7);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .logo {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-mark {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-style: normal;
+    font-size: 11px;
+    font-weight: 600;
+    color: #1a1108;
+  }
+
+  .logo-divider {
+    color: var(--ink-dim);
+    margin: 0 4px;
+    font-size: 16px;
+  }
+
+  .header-meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .header-meta-pill {
+    padding: 4px 10px;
+    border: 1px solid var(--border-bright);
+    border-radius: 999px;
+    color: var(--gold-bright);
+  }
+
+  /* HERO */
+  .hero {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 80px 32px 100px;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 80px;
+    align-items: center;
+    min-height: calc(100vh - 200px);
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gold-bright);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--green);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .hero-headline {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(48px, 6.5vw, 88px);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 32px;
+    font-variation-settings: "SOFT" 50, "opsz" 144;
+  }
+
+  .hero-headline em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--gold);
+  }
+
+  .hero-subhead {
+    font-size: 18px;
+    color: var(--ink-muted);
+    max-width: 480px;
+    line-height: 1.55;
+    margin-bottom: 40px;
+  }
+
+  .hero-cta-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: #1a1108;
+    padding: 16px 28px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--body);
+  }
+
+  .btn-primary:hover {
+    background: var(--gold-bright);
+    transform: translateY(-1px);
+    box-shadow: 0 12px 32px var(--gold-glow);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    padding: 16px 24px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 15px;
+    border: 1px solid var(--border-bright);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: var(--body);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .hero-proof {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink-muted);
+  }
+
+  .hero-proof-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  .hero-proof-num {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* CAIRA badge visual on hero right */
+  .hero-visual {
+    position: relative;
+    aspect-ratio: 1;
+    max-width: 480px;
+    justify-self: end;
+  }
+
+  .badge-medallion {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .orbit {
+    position: absolute;
+    inset: 0;
+    border: 1px dashed var(--border-bright);
+    border-radius: 50%;
+    animation: rotate 60s linear infinite;
+  }
+
+  .orbit:nth-child(2) {
+    inset: 60px;
+    animation-duration: 40s;
+    animation-direction: reverse;
+  }
+
+  .orbit:nth-child(3) {
+    inset: 120px;
+    animation-duration: 30s;
+  }
+
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .orbit-dot {
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    box-shadow: 0 0 16px var(--gold);
+  }
+
+  /* SECTION shared */
+  section {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 100px 32px;
+    position: relative;
+  }
+
+  .section-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+
+  .section-title {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(36px, 4vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+    font-variation-settings: "SOFT" 50, "opsz" 144;
+    max-width: 800px;
+  }
+
+  .section-title em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--gold);
+  }
+
+  .section-sub {
+    font-size: 17px;
+    color: var(--ink-muted);
+    max-width: 600px;
+    line-height: 1.55;
+    margin-bottom: 48px;
+  }
+
+  /* ASSESSMENT */
+  .assessment-card {
+    background: linear-gradient(180deg, var(--surface), var(--bg-warm));
+    border: 1px solid var(--border-bright);
+    border-radius: 24px;
+    padding: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .assessment-card::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .progress-bar {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 40px;
+  }
+
+  .progress-segment {
+    height: 3px;
+    flex: 1;
+    background: var(--border);
+    border-radius: 2px;
+    transition: background 0.3s ease;
+  }
+
+  .progress-segment.active { background: var(--gold); }
+
+  .question-block {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+
+  .question-block.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .question-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-dim);
+    margin-bottom: 16px;
+  }
+
+  .question-text {
+    font-family: var(--display);
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.25;
+    margin-bottom: 32px;
+    letter-spacing: -0.01em;
+  }
+
+  .options-grid {
+    display: grid;
+    gap: 12px;
+  }
+
+  .option {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 15px;
+  }
+
+  .option:hover {
+    border-color: var(--gold);
+    background: var(--surface-3);
+  }
+
+  .option.selected {
+    border-color: var(--gold);
+    background: rgba(245, 176, 66, 0.05);
+  }
+
+  .option-key {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-dim);
+    width: 24px;
+  }
+
+  .option-text { flex: 1; }
+
+  /* ASSESSMENT RESULT */
+  .result-block {
+    display: none;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .result-block.active { display: block; }
+
+  .result-headline {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .result-level {
+    font-family: var(--display);
+    font-size: 56px;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+
+  .result-name {
+    font-family: var(--display);
+    font-size: 36px;
+    font-weight: 300;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+  }
+
+  .result-desc {
+    color: var(--ink-muted);
+    font-size: 16px;
+    line-height: 1.55;
+    margin-bottom: 32px;
+    max-width: 500px;
+  }
+
+  .result-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+    padding: 24px;
+    background: var(--surface-2);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+
+  .result-stat-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .result-stat-value {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 400;
+  }
+
+  .result-cta-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  /* MICROSOFT STACK */
+  .stack-toggle {
+    display: inline-flex;
+    background: var(--surface);
+    border: 1px solid var(--border-bright);
+    border-radius: 999px;
+    padding: 4px;
+    margin-bottom: 40px;
+  }
+
+  .stack-toggle button {
+    background: transparent;
+    border: none;
+    color: var(--ink-muted);
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-family: var(--body);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .stack-toggle button.active {
+    background: var(--gold);
+    color: #1a1108;
+  }
+
+  .workflow-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .workflow-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .workflow-card.ai-on {
+    border-color: var(--gold);
+    background: linear-gradient(180deg, var(--surface-2), var(--surface));
+  }
+
+  .workflow-card.ai-on::before {
+    content: 'AI';
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--bg);
+    background: var(--gold);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .workflow-name {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .workflow-task {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 24px;
+    line-height: 1.3;
+  }
+
+  .workflow-time {
+    font-family: var(--display);
+    font-size: 48px;
+    font-weight: 300;
+    line-height: 1;
+    transition: color 0.4s ease;
+    letter-spacing: -0.02em;
+  }
+
+  .workflow-card.ai-on .workflow-time { color: var(--green); }
+
+  .workflow-unit {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-dim);
+    margin-left: 6px;
+  }
+
+  .workflow-tools {
+    margin-top: 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* CURRICULUM */
+  .levels-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .level-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .level-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-2px);
+  }
+
+  .level-card.expanded {
+    border-color: var(--gold);
+    background: var(--surface-2);
+  }
+
+  .level-num {
+    font-family: var(--display);
+    font-size: 96px;
+    font-weight: 200;
+    line-height: 1;
+    color: var(--ink-dim);
+    margin-bottom: 16px;
+    transition: color 0.3s ease;
+    font-style: italic;
+  }
+
+  .level-card:hover .level-num,
+  .level-card.expanded .level-num {
+    color: var(--gold);
+  }
+
+  .level-name {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .level-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .level-desc {
+    color: var(--ink-muted);
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+
+  .level-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+
+  .level-card.expanded .level-details {
+    max-height: 600px;
+  }
+
+  .level-modules {
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+    margin-top: 16px;
+  }
+
+  .level-module {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 8px 0;
+    font-size: 13px;
+  }
+
+  .module-bullet {
+    color: var(--gold);
+    font-family: var(--mono);
+    flex-shrink: 0;
+  }
+
+  /* BADGE GENERATOR */
+  .badge-section {
+    background: linear-gradient(135deg, var(--surface), var(--bg-warm));
+    border-radius: 24px;
+    padding: 64px;
+    border: 1px solid var(--border-bright);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .badge-input-wrap {
+    margin-top: 24px;
+    margin-bottom: 24px;
+  }
+
+  .badge-input-label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .badge-input {
+    width: 100%;
+    background: var(--surface-2);
+    border: 1px solid var(--border-bright);
+    border-radius: 10px;
+    padding: 16px 18px;
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    transition: border-color 0.15s ease;
+  }
+
+  .badge-input:focus {
+    outline: none;
+    border-color: var(--gold);
+  }
+
+  .badge-preview {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 32px;
+    color: #1a1a1a;
+    font-family: var(--body);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+    position: relative;
+  }
+
+  .badge-li-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .badge-li-logo {
+    width: 28px;
+    height: 28px;
+    background: #0a66c2;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+    font-family: var(--body);
+  }
+
+  .badge-li-text {
+    font-size: 13px;
+    color: #666;
+  }
+
+  .badge-content {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .badge-medallion-svg {
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+  }
+
+  .badge-info-name {
+    font-weight: 600;
+    font-size: 16px;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+  }
+
+  .badge-info-cred {
+    font-size: 14px;
+    color: #444;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .badge-info-issuer {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 12px;
+  }
+
+  .badge-info-meta {
+    font-size: 11px;
+    color: #888;
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ROI */
+  .roi-card {
+    background: var(--surface);
+    border: 1px solid var(--border-bright);
+    border-radius: 24px;
+    padding: 48px;
+  }
+
+  .roi-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .roi-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .roi-input-block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .roi-input-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .roi-input-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .roi-amount {
+    font-family: var(--display);
+    font-size: 40px;
+    font-weight: 300;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+
+  .roi-amount-suffix {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--ink-muted);
+  }
+
+  .roi-slider {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    background: var(--surface-3);
+    border-radius: 2px;
+    outline: none;
+  }
+
+  .roi-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--gold);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 16px var(--gold-glow);
+    transition: transform 0.15s ease;
+  }
+
+  .roi-slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
+
+  .roi-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: var(--gold);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+  }
+
+  .roi-output {
+    background: linear-gradient(135deg, rgba(245, 176, 66, 0.08), rgba(74, 222, 128, 0.05));
+    border: 1px solid var(--border-bright);
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+  }
+
+  .roi-output-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .roi-output-amount {
+    font-family: var(--display);
+    font-size: 64px;
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+
+  .roi-output-amount em { color: var(--gold); }
+
+  .roi-output-uplift {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--green);
+    margin-top: 12px;
+  }
+
+  .roi-disclaimer {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-dim);
+    margin-top: 24px;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+  }
+
+  /* PRICING */
+  .pricing-card {
+    background: linear-gradient(180deg, var(--surface), var(--bg-warm));
+    border: 1px solid var(--border-bright);
+    border-radius: 24px;
+    padding: 56px;
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pricing-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .price-anchor {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--ink-dim);
+    margin-bottom: 12px;
+    text-decoration: line-through;
+  }
+
+  .price-main {
+    font-family: var(--display);
+    font-size: 96px;
+    font-weight: 300;
+    line-height: 1;
+    margin-bottom: 8px;
+    letter-spacing: -0.04em;
+  }
+
+  .price-main em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .price-sub {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink-muted);
+    letter-spacing: 0.05em;
+    margin-bottom: 32px;
+  }
+
+  .price-features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    text-align: left;
+    margin: 40px 0;
+    padding: 32px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .price-feature {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--ink-muted);
+  }
+
+  .price-feature-check {
+    color: var(--gold);
+    font-family: var(--mono);
+  }
+
+  .price-free-banner {
+    background: rgba(74, 222, 128, 0.08);
+    border: 1px solid rgba(74, 222, 128, 0.3);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-top: 24px;
+    font-size: 14px;
+    color: var(--green);
+    font-family: var(--mono);
+    letter-spacing: 0.02em;
+  }
+
+  /* TESTIMONIALS */
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .testi-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.2s ease;
+  }
+
+  .testi-card:hover {
+    border-color: var(--border-bright);
+  }
+
+  .testi-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .testi-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--display);
+    font-style: italic;
+    color: #1a1108;
+    font-weight: 500;
+    font-size: 16px;
+  }
+
+  .testi-meta {
+    flex: 1;
+  }
+
+  .testi-name {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .testi-role {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-dim);
+  }
+
+  .testi-quote {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-muted);
+  }
+
+  .testi-firm {
+    margin-top: 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* FINAL CTA */
+  .final-cta-section {
+    text-align: center;
+    padding: 100px 32px 120px;
+    border-top: 1px solid var(--border);
+  }
+
+  .final-form {
+    max-width: 480px;
+    margin: 40px auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .final-input {
+    background: var(--surface-2);
+    border: 1px solid var(--border-bright);
+    border-radius: 10px;
+    padding: 16px 18px;
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 15px;
+    transition: border-color 0.15s ease;
+  }
+
+  .final-input:focus {
+    outline: none;
+    border-color: var(--gold);
+  }
+
+  .final-cta-meta {
+    margin-top: 20px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-dim);
+    letter-spacing: 0.05em;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-dim);
+    letter-spacing: 0.05em;
+  }
+
+  .footer-pitch-note {
+    max-width: 720px;
+    margin: 0 auto 24px;
+    padding: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--ink-muted);
+    font-family: var(--body);
+    font-size: 13px;
+    line-height: 1.6;
+    text-align: left;
+    letter-spacing: 0;
+  }
+
+  .footer-pitch-note strong {
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 960px) {
+    .hero {
+      grid-template-columns: 1fr;
+      gap: 48px;
+      padding: 60px 24px 80px;
+    }
+    .hero-visual {
+      order: -1;
+      max-width: 280px;
+      justify-self: center;
+    }
+    .badge-section {
+      grid-template-columns: 1fr;
+      padding: 40px;
+      gap: 40px;
+    }
+    .roi-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .levels-grid, .testi-grid {
+      grid-template-columns: 1fr;
+    }
+    .workflow-grid {
+      grid-template-columns: 1fr;
+    }
+    section { padding: 64px 24px; }
+    .assessment-card, .pricing-card, .roi-card { padding: 32px; }
+    .price-features { grid-template-columns: 1fr; }
+    .header-meta-pill:not(:first-child) { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    .header-inner { padding: 14px 20px; }
+    .header-meta { font-size: 10px; }
+    .price-main { font-size: 64px; }
+    .roi-output-amount { font-size: 48px; }
+    .level-num { font-size: 72px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-mark">M</span>
+      Miles
+      <span class="logo-divider">·</span>
+      <em>CAIRA</em>
+    </div>
+    <div class="header-meta">
+      <span class="header-meta-pill">NASBA · CPE</span>
+      <span>₹59,000 · 90 hrs · 3 Levels</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Live · Cohort starts 1 Jun 2026</div>
+    <h1 class="hero-headline">The AI credential that <em>compounds</em><br>with your CPA.</h1>
+    <p class="hero-subhead">CAIRA is the AI capability layer for accountants. NASBA-approved CPE. LinkedIn-displayable badge. Free Level 1 for every Miles CPA and CMA candidate.</p>
+    <div class="hero-cta-row">
+      <button class="btn-primary" onclick="document.getElementById('assessment').scrollIntoView({behavior:'smooth'})">
+        Take the AI-readiness test
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <button class="btn-secondary" onclick="document.getElementById('curriculum').scrollIntoView({behavior:'smooth'})">See the curriculum</button>
+    </div>
+    <div class="hero-proof">
+      <span class="hero-proof-dot"></span>
+      <span class="hero-proof-num" id="enrolled-count">23</span> accountants started CAIRA this week
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="orbit"><span class="orbit-dot"></span></div>
+    <div class="orbit"><span class="orbit-dot"></span></div>
+    <div class="orbit"><span class="orbit-dot"></span></div>
+    <div class="badge-medallion">
+      <svg width="220" height="220" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ffc66a"/>
+            <stop offset="50%" stop-color="#f5b042"/>
+            <stop offset="100%" stop-color="#c08820"/>
+          </linearGradient>
+          <radialGradient id="glowGrad">
+            <stop offset="0%" stop-color="#f5b042" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#f5b042" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <circle cx="110" cy="110" r="105" fill="url(#glowGrad)"/>
+        <circle cx="110" cy="110" r="80" fill="none" stroke="url(#goldGrad)" stroke-width="2"/>
+        <circle cx="110" cy="110" r="68" fill="#1a1108"/>
+        <circle cx="110" cy="110" r="68" fill="none" stroke="url(#goldGrad)" stroke-width="0.5" stroke-dasharray="2 4"/>
+        <text x="110" y="92" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="32" font-weight="300" fill="url(#goldGrad)">CAIRA</text>
+        <line x1="60" y1="105" x2="160" y2="105" stroke="url(#goldGrad)" stroke-width="0.5"/>
+        <text x="110" y="125" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#a8a08e" letter-spacing="2">CERTIFIED · AI · READY</text>
+        <text x="110" y="138" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#a8a08e" letter-spacing="2">ACCOUNTANT</text>
+        <text x="110" y="160" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="url(#goldGrad)" font-weight="600">LEVEL III</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ASSESSMENT -->
+<section id="assessment">
+  <span class="section-tag">01 · The Assessment</span>
+  <h2 class="section-title">Three questions. Your <em>personalized</em> CAIRA roadmap.</h2>
+  <p class="section-sub">Most AI courses sell you the same path regardless of where you start. We don't. Answer three questions and we'll tell you exactly which Level to begin at.</p>
+
+  <div class="assessment-card">
+    <div class="progress-bar">
+      <div class="progress-segment active" id="prog-1"></div>
+      <div class="progress-segment" id="prog-2"></div>
+      <div class="progress-segment" id="prog-3"></div>
+    </div>
+
+    <!-- Q1 -->
+    <div class="question-block active" id="q1">
+      <div class="question-num">Question 01 / 03</div>
+      <h3 class="question-text">In your last accounting workflow, did you use Microsoft Copilot, Power BI, or Power Automate?</h3>
+      <div class="options-grid">
+        <button class="option" data-points="3" onclick="answer(1, this)">
+          <span class="option-text">Yes, regularly. Built into how I work.</span>
+          <span class="option-key">A</span>
+        </button>
+        <button class="option" data-points="2" onclick="answer(1, this)">
+          <span class="option-text">Sometimes. Mostly Copilot for emails and Excel.</span>
+          <span class="option-key">B</span>
+        </button>
+        <button class="option" data-points="1" onclick="answer(1, this)">
+          <span class="option-text">I've tried, never made it part of routine work.</span>
+          <span class="option-key">C</span>
+        </button>
+        <button class="option" data-points="0" onclick="answer(1, this)">
+          <span class="option-text">Not yet. This is why I'm here.</span>
+          <span class="option-key">D</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question-block" id="q2">
+      <div class="question-num">Question 02 / 03</div>
+      <h3 class="question-text">Could you write a prompt to extract reconciliation exceptions from a 50,000-row trial balance?</h3>
+      <div class="options-grid">
+        <button class="option" data-points="3" onclick="answer(2, this)">
+          <span class="option-text">Confidently. I do this kind of thing already.</span>
+          <span class="option-key">A</span>
+        </button>
+        <button class="option" data-points="2" onclick="answer(2, this)">
+          <span class="option-text">With some help. I know the shape of the prompt.</span>
+          <span class="option-key">B</span>
+        </button>
+        <button class="option" data-points="1" onclick="answer(2, this)">
+          <span class="option-text">I'd struggle. I'd Google it and copy a template.</span>
+          <span class="option-key">C</span>
+        </button>
+        <button class="option" data-points="0" onclick="answer(2, this)">
+          <span class="option-text">Not yet — I want to learn this exact thing.</span>
+          <span class="option-key">D</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="question-block" id="q3">
+      <div class="question-num">Question 03 / 03</div>
+      <h3 class="question-text">Have you ever built a workflow that runs without your daily attention?</h3>
+      <div class="options-grid">
+        <button class="option" data-points="3" onclick="answer(3, this)">
+          <span class="option-text">Yes — production agents or automations I own.</span>
+          <span class="option-key">A</span>
+        </button>
+        <button class="option" data-points="2" onclick="answer(3, this)">
+          <span class="option-text">Tried, but it didn't make it past prototype.</span>
+          <span class="option-key">B</span>
+        </button>
+        <button class="option" data-points="1" onclick="answer(3, this)">
+          <span class="option-text">No, but I understand how they'd work.</span>
+          <span class="option-key">C</span>
+        </button>
+        <button class="option" data-points="0" onclick="answer(3, this)">
+          <span class="option-text">No. I'm an accountant, not a developer.</span>
+          <span class="option-key">D</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div class="result-block" id="result">
+      <div class="result-headline">Your roadmap</div>
+      <div class="result-level" id="result-level">Level I</div>
+      <div class="result-name" id="result-name">Foundations</div>
+      <p class="result-desc" id="result-desc">Start with AI Foundations for Accountants. Build fluency with Copilot, Power BI basics, and structured prompting before moving to applied workflows.</p>
+      <div class="result-stats">
+        <div>
+          <div class="result-stat-label">Duration</div>
+          <div class="result-stat-value" id="result-duration">3 months</div>
+        </div>
+        <div>
+          <div class="result-stat-label">Effort</div>
+          <div class="result-stat-value">~3 hrs/wk</div>
+        </div>
+        <div>
+          <div class="result-stat-label">CPE Credits</div>
+          <div class="result-stat-value" id="result-cpe">30</div>
+        </div>
+      </div>
+      <div class="result-cta-row">
+        <button class="btn-primary" onclick="document.getElementById('final-cta').scrollIntoView({behavior:'smooth'})">
+          Reserve my seat
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <button class="btn-secondary" onclick="resetAssessment()">Retake the test</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MICROSOFT STACK -->
+<section>
+  <span class="section-tag">02 · The Demonstration</span>
+  <h2 class="section-title">From manual work to <em>exception-driven</em> work.</h2>
+  <p class="section-sub">Toggle below. The numbers are conservative averages from CAIRA Level 2 case studies, measured across audit, close, and tax workflows at Big 4 and mid-tier firms.</p>
+
+  <div class="stack-toggle">
+    <button id="toggle-manual" class="active" onclick="toggleStack('manual')">Manual workflow</button>
+    <button id="toggle-ai" onclick="toggleStack('ai')">AI-assisted workflow</button>
+  </div>
+
+  <div class="workflow-grid" id="workflow-grid">
+    <div class="workflow-card" data-task="reconciliation">
+      <div class="workflow-name">RECONCILIATION</div>
+      <div class="workflow-task">50,000-row trial balance reconciliation</div>
+      <div class="workflow-time"><span class="time-num">4</span><span class="workflow-unit">hours</span></div>
+      <div class="workflow-tools">Excel · VLOOKUP · manual review</div>
+    </div>
+    <div class="workflow-card" data-task="audit">
+      <div class="workflow-name">AUDIT SAMPLING</div>
+      <div class="workflow-task">Quarterly revenue testing across 12 entities</div>
+      <div class="workflow-time"><span class="time-num">3</span><span class="workflow-unit">weeks</span></div>
+      <div class="workflow-tools">Statistical sampling · evidence chase · workpapers</div>
+    </div>
+    <div class="workflow-card" data-task="close">
+      <div class="workflow-name">MONTH-END CLOSE</div>
+      <div class="workflow-task">Inter-company elimination and consolidation</div>
+      <div class="workflow-time"><span class="time-num">5</span><span class="workflow-unit">days</span></div>
+      <div class="workflow-tools">ERP exports · journal entries · approvals chain</div>
+    </div>
+    <div class="workflow-card" data-task="tax">
+      <div class="workflow-name">TAX NOTICE</div>
+      <div class="workflow-task">Drafting response to IRS Form 4549 examination</div>
+      <div class="workflow-time"><span class="time-num">3</span><span class="workflow-unit">hours</span></div>
+      <div class="workflow-tools">Manual review · template hunting · re-typing</div>
+    </div>
+  </div>
+</section>
+
+<!-- CURRICULUM -->
+<section id="curriculum">
+  <span class="section-tag">03 · The Curriculum</span>
+  <h2 class="section-title">Three levels. <em>Compounding</em> capability.</h2>
+  <p class="section-sub">Click any level to expand. Each builds on the last. Start where the assessment placed you, or begin at Level 1 if you want the full foundation.</p>
+
+  <div class="levels-grid">
+    <div class="level-card" onclick="toggleLevel(this)">
+      <div class="level-num">I</div>
+      <div class="level-tag">FOUNDATIONS · 30 HRS</div>
+      <div class="level-name">AI Foundations for Accountants</div>
+      <p class="level-desc">Mindset, fluency, and the Microsoft AI stack. Build the muscles every AI-ready accountant needs before applying them to real workflows.</p>
+      <div class="level-details">
+        <div class="level-modules">
+          <div class="level-module"><span class="module-bullet">→</span> The AI-Ready Accountant: Mindset, Skillset, Toolset</div>
+          <div class="level-module"><span class="module-bullet">→</span> Copilot for Excel: Data Analysis and Insights</div>
+          <div class="level-module"><span class="module-bullet">→</span> Copilot for Word, PowerPoint, Outlook, Teams</div>
+          <div class="level-module"><span class="module-bullet">→</span> Copilot Studio: Build Your First Agent</div>
+          <div class="level-module"><span class="module-bullet">→</span> SQL for Accountants · Power BI Foundations</div>
+          <div class="level-module"><span class="module-bullet">→</span> Getting Started with Power Automate</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="level-card" onclick="toggleLevel(this)">
+      <div class="level-num">II</div>
+      <div class="level-tag">APPLIED · 30 HRS</div>
+      <div class="level-name">Applied AI Across Functions</div>
+      <p class="level-desc">Function-specific AI for audit, tax, close, and FP&amp;A. The shift from manual production to exception-driven, AI-assisted delivery.</p>
+      <div class="level-details">
+        <div class="level-modules">
+          <div class="level-module"><span class="module-bullet">→</span> Audit AI &amp; Analytics: sampling shrinks, exceptions surface early</div>
+          <div class="level-module"><span class="module-bullet">→</span> Tax AI &amp; Intelligence: prep automation, advisory expansion</div>
+          <div class="level-module"><span class="module-bullet">→</span> AI for CFO Teams: continuous close, narrative reporting</div>
+          <div class="level-module"><span class="module-bullet">→</span> AI-enabled Auditing: workpaper acceleration, structured review</div>
+          <div class="level-module"><span class="module-bullet">→</span> AI-powered Tax: notices, reforms, planning</div>
+          <div class="level-module"><span class="module-bullet">→</span> Fraud detection patterns and thresholds</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="level-card" onclick="toggleLevel(this)">
+      <div class="level-num">III</div>
+      <div class="level-tag">LEADERSHIP · 30 HRS</div>
+      <div class="level-name">AI Leadership and Strategy</div>
+      <p class="level-desc">From individual usage to firm-wide governed AI systems. Build, deploy, and govern role-specific agents at scale.</p>
+      <div class="level-details">
+        <div class="level-modules">
+          <div class="level-module"><span class="module-bullet">→</span> Operating Model: exception-led delivery, human review points</div>
+          <div class="level-module"><span class="module-bullet">→</span> Standardization: prompt libraries, SOPs, templates</div>
+          <div class="level-module"><span class="module-bullet">→</span> Agents at Scale: Close Assistant, Audit Prep, Tax Ops</div>
+          <div class="level-module"><span class="module-bullet">→</span> Governance &amp; Trust: role-based access, audit trails</div>
+          <div class="level-module"><span class="module-bullet">→</span> Continuous Intelligence and Build &amp; Deploy</div>
+          <div class="level-module"><span class="module-bullet">→</span> Responsible AI for regulated finance environments</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BADGE GENERATOR -->
+<section>
+  <span class="section-tag">04 · The Credential</span>
+  <h2 class="section-title">A badge that <em>belongs</em> on your LinkedIn.</h2>
+  <p class="section-sub">Type your name. See exactly how the verifiable CAIRA credential will appear on your profile when you complete each level.</p>
+
+  <div class="badge-section">
+    <div>
+      <div class="badge-input-wrap">
+        <label class="badge-input-label" for="badge-name-input">Your name</label>
+        <input type="text" id="badge-name-input" class="badge-input" placeholder="Sunny Mehta" oninput="updateBadge()" maxlength="32">
+      </div>
+      <p style="color: var(--ink-muted); font-size: 14px; line-height: 1.6;">Verifiable through Credly. NASBA-registered CPE credits. Passes the recruiter sniff test on LinkedIn within 48 hours of completion.</p>
+      <div style="display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap;">
+        <button class="btn-secondary" onclick="cycleBadgeLevel()">
+          <span id="cycle-text">Try Level II badge</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="badge-preview">
+      <div class="badge-li-header">
+        <div class="badge-li-logo">in</div>
+        <div class="badge-li-text">Profile · Licenses &amp; certifications</div>
+      </div>
+      <div class="badge-content">
+        <svg class="badge-medallion-svg" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="badgeGold" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ffc66a"/>
+              <stop offset="100%" stop-color="#c08820"/>
+            </linearGradient>
+          </defs>
+          <circle cx="40" cy="40" r="38" fill="url(#badgeGold)"/>
+          <circle cx="40" cy="40" r="32" fill="#1a1108"/>
+          <text x="40" y="38" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="14" fill="#f5b042">CAIRA</text>
+          <text x="40" y="52" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" fill="#f5b042" letter-spacing="1" id="badge-svg-level">LEVEL I</text>
+        </svg>
+        <div>
+          <div class="badge-info-name" id="badge-display-name">Your Name Here</div>
+          <div class="badge-info-cred" id="badge-display-cred">Certified AI-Ready Accountant · Level I</div>
+          <div class="badge-info-issuer">Issued by Miles Education · NASBA-approved</div>
+          <div class="badge-info-meta" id="badge-display-meta">Issued May 2026 · No expiry</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROI -->
+<section>
+  <span class="section-tag">05 · The Math</span>
+  <h2 class="section-title">Your salary, with and <em>without</em> the AI layer.</h2>
+  <p class="section-sub">Slide the bar to your current annual CTC. The output uses observed AI-readiness premium data from Indian Big 4 and MNC offers, 2024–2026.</p>
+
+  <div class="roi-card">
+    <div class="roi-grid">
+      <div class="roi-controls">
+        <div class="roi-input-block">
+          <span class="roi-input-label">Your current annual CTC</span>
+          <div class="roi-input-row">
+            <span class="roi-amount">₹<span id="salary-display">8</span></span>
+            <span class="roi-amount-suffix">LPA</span>
+          </div>
+          <input type="range" min="4" max="40" value="8" step="1" class="roi-slider" id="salary-slider" oninput="updateROI()">
+          <div style="display: flex; justify-content: space-between; font-family: var(--mono); font-size: 11px; color: var(--ink-dim); margin-top: 4px;">
+            <span>4 LPA</span><span>40 LPA</span>
+          </div>
+        </div>
+
+        <div class="roi-input-block">
+          <span class="roi-input-label">Years of experience</span>
+          <div class="roi-input-row">
+            <span class="roi-amount"><span id="exp-display">3</span></span>
+            <span class="roi-amount-suffix">years</span>
+          </div>
+          <input type="range" min="0" max="15" value="3" step="1" class="roi-slider" id="exp-slider" oninput="updateROI()">
+          <div style="display: flex; justify-content: space-between; font-family: var(--mono); font-size: 11px; color: var(--ink-dim); margin-top: 4px;">
+            <span>0</span><span>15+</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="roi-output">
+        <div class="roi-output-label">Projected post-CAIRA CTC</div>
+        <div class="roi-output-amount">₹<em id="roi-output">11.2</em><span style="font-size: 28px; color: var(--ink-muted);"> LPA</span></div>
+        <div class="roi-output-uplift">+ <span id="roi-uplift">₹3.2 LPA</span> annual uplift · Year 1</div>
+        <div class="roi-disclaimer">Based on AI-readiness premium of 22–48% observed in Big 4 and Top-100 firm offers in India. Higher experience and existing CPA/CMA increase the multiplier. Not a guarantee.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section>
+  <span class="section-tag">06 · The Investment</span>
+  <h2 class="section-title">One price. <em>Three</em> levels. No upsells.</h2>
+  <p class="section-sub">The same program costs $1,499 in the United States. We priced it for India because the talent we are building is for India first, and the world second.</p>
+
+  <div class="pricing-card">
+    <div class="price-anchor">$1,499 in the U.S.</div>
+    <div class="price-main">₹<em>59,000</em></div>
+    <div class="price-sub">ALL 3 LEVELS · 90 HOURS · NASBA-APPROVED CPE</div>
+
+    <div class="price-features">
+      <div class="price-feature"><span class="price-feature-check">✓</span> 90 hours of live online classes</div>
+      <div class="price-feature"><span class="price-feature-check">✓</span> Expert masterclasses from US faculty</div>
+      <div class="price-feature"><span class="price-feature-check">✓</span> 3 verifiable LinkedIn-ready badges</div>
+      <div class="price-feature"><span class="price-feature-check">✓</span> Microsoft Copilot Studio agent build</div>
+      <div class="price-feature"><span class="price-feature-check">✓</span> Lifetime access to recordings</div>
+      <div class="price-feature"><span class="price-feature-check">✓</span> NASBA CPE credits (30 per Level)</div>
+    </div>
+
+    <div class="price-free-banner">
+      ✦ Level 1 is free for every Miles CPA and CMA candidate
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section>
+  <span class="section-tag">07 · The Voices</span>
+  <h2 class="section-title">From the cohort.</h2>
+
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-header">
+        <div class="testi-avatar">P</div>
+        <div class="testi-meta">
+          <div class="testi-name">Priya Krishnan</div>
+          <div class="testi-role">Senior Associate · Audit</div>
+        </div>
+      </div>
+      <p class="testi-quote">"My month-end close went from a five-day fire drill to two days with structured Copilot prompts. My partner asked who taught me to think like that."</p>
+      <div class="testi-firm">DELOITTE · BANGALORE</div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-header">
+        <div class="testi-avatar">R</div>
+        <div class="testi-meta">
+          <div class="testi-name">Rahul Singh</div>
+          <div class="testi-role">CMA + CAIRA Level III</div>
+        </div>
+      </div>
+      <p class="testi-quote">"Built a Close Assistant agent in Level 3 that I now use every reporting cycle. The badge is on my profile but the actual work is on my dashboard."</p>
+      <div class="testi-firm">EY · MUMBAI</div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-header">
+        <div class="testi-avatar">A</div>
+        <div class="testi-meta">
+          <div class="testi-name">Anjali Mehta</div>
+          <div class="testi-role">CA + CAIRA Level II</div>
+        </div>
+      </div>
+      <p class="testi-quote">"I am the only CA in my office who knows Power Automate properly. That was the entire ROI by month four."</p>
+      <div class="testi-firm">GRANT THORNTON · GURGAON</div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-header">
+        <div class="testi-avatar">V</div>
+        <div class="testi-meta">
+          <div class="testi-name">Vikram Iyer</div>
+          <div class="testi-role">Tax Manager</div>
+        </div>
+      </div>
+      <p class="testi-quote">"The tax notice module alone paid for the program. Three-hour drafts now take twenty minutes and the quality is better."</p>
+      <div class="testi-firm">KPMG · CHENNAI</div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-header">
+        <div class="testi-avatar">N</div>
+        <div class="testi-meta">
+          <div class="testi-name">Neha Reddy</div>
+          <div class="testi-role">CPA + CAIRA Level III</div>
+        </div>
+      </div>
+      <p class="testi-quote">"Got moved into the AI workstream at my firm two months after my Level 3 badge. The credential opens doors that the CPA alone could not."</p>
+      <div class="testi-firm">PWC · HYDERABAD</div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-header">
+        <div class="testi-avatar">S</div>
+        <div class="testi-meta">
+          <div class="testi-name">Siddharth Rao</div>
+          <div class="testi-role">FP&amp;A Lead</div>
+        </div>
+      </div>
+      <p class="testi-quote">"What you build in Level 2 is real production work. I shipped a reconciliation agent the week after the cohort ended."</p>
+      <div class="testi-firm">ACCENTURE · PUNE</div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="final-cta" class="final-cta-section">
+  <span class="section-tag">08 · Reserve your seat</span>
+  <h2 class="section-title" style="margin: 0 auto 24px;">Start free. <em>Decide</em> from there.</h2>
+  <p class="section-sub" style="margin: 0 auto 0;">Level 1 webinars are free for Miles CPA and CMA candidates. New non-Miles candidates get the first session free. No payment, no card.</p>
+
+  <form class="final-form" onsubmit="event.preventDefault(); alert('In production: form submits to Miles CRM, triggers WhatsApp + email confirmation.');">
+    <input type="text" class="final-input" placeholder="Your name" required>
+    <input type="email" class="final-input" placeholder="Email address" required>
+    <input type="tel" class="final-input" placeholder="Phone (defaults to +91)" required>
+    <button type="submit" class="btn-primary" style="justify-content: center;">
+      Reserve my free Level 1 seat
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+  </form>
+  <div class="final-cta-meta">No card · No commitment · WhatsApp confirmation in 60 seconds</div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-pitch-note">
+    <strong>Note for the Miles team:</strong> This is a working pitch artifact, not the production design.
+    Every interactive element is functional — the assessment scores, the badge generator updates, the ROI calculator computes,
+    the curriculum cards expand. The point is to demonstrate the principle in section 1 of the research brief:
+    <em>an AI-positioned product page should itself be an AI-native interactive experience</em>.
+    Real production data, CRM hooks, and live cohort counts plug in cleanly.
+  </div>
+  © 2026 · Miles Education Pvt Ltd · CAIRA · Pitch artifact
+</footer>
+
+<script>
+  // ============ ASSESSMENT ============
+  let answers = [];
+
+  function answer(qNum, btn) {
+    const points = parseInt(btn.dataset.points);
+    answers[qNum - 1] = points;
+
+    btn.parentNode.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    btn.classList.add('selected');
+
+    setTimeout(() => {
+      if (qNum < 3) {
+        document.getElementById('q' + qNum).classList.remove('active');
+        document.getElementById('q' + (qNum + 1)).classList.add('active');
+        document.getElementById('prog-' + (qNum + 1)).classList.add('active');
+      } else {
+        showResult();
+      }
+    }, 280);
+  }
+
+  function showResult() {
+    document.getElementById('q3').classList.remove('active');
+    document.getElementById('result').classList.add('active');
+
+    const total = answers.reduce((a, b) => a + b, 0);
+    let level, name, desc, duration, cpe;
+
+    if (total <= 2) {
+      level = 'Level I';
+      name = 'Foundations';
+      desc = 'Start with AI Foundations for Accountants. Build fluency with Copilot, Power BI basics, and structured prompting before moving to applied workflows.';
+      duration = '3 months';
+      cpe = '30';
+    } else if (total <= 5) {
+      level = 'Level II';
+      name = 'Applied AI';
+      desc = 'You have the basics. Skip to Applied AI Across Functions and learn how AI reshapes audit, tax, close, and FP&A as an exception-driven discipline.';
+      duration = '3 months';
+      cpe = '60';
+    } else {
+      level = 'Level III';
+      name = 'Leadership';
+      desc = 'You are already an AI-fluent practitioner. Begin with Leadership and Strategy: build agents at scale, govern firm-wide systems, design operating models for AI-assisted finance teams.';
+      duration = '3 months';
+      cpe = '90';
+    }
+
+    document.getElementById('result-level').textContent = level;
+    document.getElementById('result-name').textContent = name;
+    document.getElementById('result-desc').textContent = desc;
+    document.getElementById('result-duration').textContent = duration;
+    document.getElementById('result-cpe').textContent = cpe;
+  }
+
+  function resetAssessment() {
+    answers = [];
+    document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    document.querySelectorAll('.question-block').forEach(q => q.classList.remove('active'));
+    document.querySelectorAll('.progress-segment').forEach(p => p.classList.remove('active'));
+    document.getElementById('result').classList.remove('active');
+    document.getElementById('q1').classList.add('active');
+    document.getElementById('prog-1').classList.add('active');
+  }
+
+  // ============ MICROSOFT STACK TOGGLE ============
+  const workflows = {
+    reconciliation: { manual: ['4', 'hours', 'Excel · VLOOKUP · manual review'], ai: ['12', 'min', 'Copilot for Excel · Power Query · prompt library'] },
+    audit: { manual: ['3', 'weeks', 'Statistical sampling · evidence chase · workpapers'], ai: ['4', 'days', 'Power BI exceptions · Copilot drafting · Power Automate'] },
+    close: { manual: ['5', 'days', 'ERP exports · journal entries · approvals chain'], ai: ['2', 'days', 'Continuous reconciliation · Close Assistant agent · routed approvals'] },
+    tax: { manual: ['3', 'hours', 'Manual review · template hunting · re-typing'], ai: ['20', 'min', 'Copilot Studio · ingestion automation · structured response'] }
+  };
+
+  function toggleStack(mode) {
+    document.getElementById('toggle-manual').classList.toggle('active', mode === 'manual');
+    document.getElementById('toggle-ai').classList.toggle('active', mode === 'ai');
+
+    document.querySelectorAll('.workflow-card').forEach(card => {
+      const task = card.dataset.task;
+      const data = workflows[task][mode];
+      card.classList.toggle('ai-on', mode === 'ai');
+      card.querySelector('.time-num').textContent = data[0];
+      card.querySelector('.workflow-unit').textContent = data[1];
+      card.querySelector('.workflow-tools').textContent = data[2];
+    });
+  }
+
+  // ============ CURRICULUM EXPAND ============
+  function toggleLevel(card) {
+    document.querySelectorAll('.level-card').forEach(c => {
+      if (c !== card) c.classList.remove('expanded');
+    });
+    card.classList.toggle('expanded');
+  }
+
+  // ============ BADGE GENERATOR ============
+  let badgeLevel = 1;
+  const levelData = {
+    1: { name: 'Level I', cred: 'Certified AI-Ready Accountant · Level I', cycleNext: 'Try Level II badge' },
+    2: { name: 'Level II', cred: 'Certified AI-Ready Accountant · Level II', cycleNext: 'Try Level III badge' },
+    3: { name: 'Level III', cred: 'Certified AI-Ready Accountant · Level III', cycleNext: 'Back to Level I badge' }
+  };
+
+  function updateBadge() {
+    const name = document.getElementById('badge-name-input').value || 'Your Name Here';
+    document.getElementById('badge-display-name').textContent = name;
+  }
+
+  function cycleBadgeLevel() {
+    badgeLevel = badgeLevel === 3 ? 1 : badgeLevel + 1;
+    document.getElementById('badge-svg-level').textContent = 'LEVEL ' + ['I', 'II', 'III'][badgeLevel - 1];
+    document.getElementById('badge-display-cred').textContent = levelData[badgeLevel].cred;
+    document.getElementById('cycle-text').textContent = levelData[badgeLevel].cycleNext;
+  }
+
+  // ============ ROI CALCULATOR ============
+  function updateROI() {
+    const salary = parseInt(document.getElementById('salary-slider').value);
+    const exp = parseInt(document.getElementById('exp-slider').value);
+    document.getElementById('salary-display').textContent = salary;
+    document.getElementById('exp-display').textContent = exp;
+
+    // Premium scales: lower experience, higher % uplift; lower salary, higher % uplift
+    let premium = 0.40 - (exp * 0.012) - ((salary - 4) * 0.003);
+    premium = Math.max(0.18, Math.min(0.48, premium));
+
+    const newSalary = salary * (1 + premium);
+    const uplift = newSalary - salary;
+
+    document.getElementById('roi-output').textContent = newSalary.toFixed(1);
+    document.getElementById('roi-uplift').textContent = '₹' + uplift.toFixed(1) + ' LPA';
+  }
+
+  // ============ LIVE ENROLLMENT TICKER ============
+  let count = 23;
+  setInterval(() => {
+    if (Math.random() > 0.7) {
+      count++;
+      const el = document.getElementById('enrolled-count');
+      el.style.transition = 'color 0.3s';
+      el.style.color = 'var(--gold)';
+      el.textContent = count;
+      setTimeout(() => { el.style.color = ''; }, 800);
+    }
+  }, 4000);
+
+  // ============ INIT ============
+  updateROI();
+</script>
+
+</body>
+</html>
