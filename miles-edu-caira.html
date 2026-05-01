@@ -273,61 +273,235 @@
     font-weight: 600;
   }
 
-  /* CAIRA badge visual on hero right */
+  /* HERO VIDEO PLACEHOLDER */
   .hero-visual {
     position: relative;
-    aspect-ratio: 1;
-    max-width: 480px;
+    width: 100%;
     justify-self: end;
   }
 
-  .badge-medallion {
+  .video-placeholder {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    animation: videoIn 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes videoIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .video-frame {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 35%, rgba(245, 176, 66, 0.08), transparent 60%),
+      radial-gradient(ellipse 60% 80% at 100% 100%, rgba(74, 222, 128, 0.04), transparent 60%),
+      linear-gradient(135deg, var(--surface-2), #0c0a07);
+    border: 1px solid var(--border-bright);
+    border-radius: 14px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.04) inset,
+      0 32px 64px -16px rgba(0, 0, 0, 0.5);
+  }
+
+  .video-frame:hover {
+    border-color: var(--gold);
+    transform: translateY(-3px);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.08) inset,
+      0 0 0 4px rgba(245, 176, 66, 0.08),
+      0 40px 80px -16px rgba(0, 0, 0, 0.6);
+  }
+
+  /* grain texture inside the frame */
+  .video-frame::before {
+    content: '';
     position: absolute;
     inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+    opacity: 0.08;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
+  /* letterbox vignette top + bottom */
+  .video-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, transparent 18%, transparent 65%, rgba(0, 0, 0, 0.7) 100%);
+    pointer-events: none;
+  }
+
+  /* corner brackets — director's frame detail */
+  .video-corner {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--gold);
+    z-index: 3;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+  }
+  .video-corner.tl { top: 12px; left: 12px; border-right: none; border-bottom: none; }
+  .video-corner.tr { top: 12px; right: 12px; border-left: none; border-bottom: none; }
+  .video-corner.bl { bottom: 12px; left: 12px; border-right: none; border-top: none; }
+  .video-corner.br { bottom: 12px; right: 12px; border-left: none; border-top: none; }
+  .video-frame:hover .video-corner { opacity: 1; }
+
+  .video-meta-bar {
+    position: absolute;
+    top: 22px;
+    left: 38px;
+    right: 38px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 3;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-muted);
+    letter-spacing: 0.18em;
+  }
+
+  .video-meta-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .video-rec-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--red);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--red);
+    animation: pulse 1.6s infinite;
+  }
+
+  .video-meta-right {
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  /* play button */
+  .video-play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+    border: none;
+    color: #1a1108;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    animation: float 6s ease-in-out infinite;
+    box-shadow:
+      0 0 0 1px rgba(255, 198, 106, 0.5),
+      0 0 0 8px rgba(245, 176, 66, 0.12),
+      0 16px 40px rgba(245, 176, 66, 0.3);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 3;
   }
 
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-12px); }
+  .video-play-btn svg {
+    margin-left: 4px; /* optical center */
   }
 
-  .orbit {
+  .video-frame:hover .video-play-btn {
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+
+  /* concentric pulsing ring */
+  .video-play-btn::after {
+    content: '';
     position: absolute;
-    inset: 0;
-    border: 1px dashed var(--border-bright);
+    inset: -6px;
     border-radius: 50%;
-    animation: rotate 60s linear infinite;
+    border: 1px solid var(--gold);
+    animation: ringPulse 2.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    pointer-events: none;
   }
 
-  .orbit:nth-child(2) {
-    inset: 60px;
-    animation-duration: 40s;
-    animation-direction: reverse;
+  @keyframes ringPulse {
+    0% { transform: scale(0.9); opacity: 0.7; }
+    100% { transform: scale(1.6); opacity: 0; }
   }
 
-  .orbit:nth-child(3) {
-    inset: 120px;
-    animation-duration: 30s;
-  }
-
-  @keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-
-  .orbit-dot {
+  /* title overlay at bottom */
+  .video-title-overlay {
     position: absolute;
-    top: -4px;
-    left: 50%;
-    width: 8px;
-    height: 8px;
-    background: var(--gold);
-    border-radius: 50%;
-    box-shadow: 0 0 16px var(--gold);
+    bottom: 22px;
+    left: 38px;
+    right: 38px;
+    z-index: 3;
+  }
+
+  .video-chapter {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    margin-bottom: 6px;
+  }
+
+  .video-title {
+    font-family: var(--display);
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    max-width: 92%;
+  }
+
+  /* subtle horizontal scan line that drifts */
+  .video-scan {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(245, 176, 66, 0.4), transparent);
+    z-index: 2;
+    animation: scan 8s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes scan {
+    0%, 100% { transform: translateY(0); opacity: 0; }
+    10% { opacity: 1; }
+    50% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(100%); opacity: 0; }
+  }
+
+  .video-caption {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-dim);
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-left: 4px;
+  }
+
+  .video-caption-bullet {
+    color: var(--gold);
+    font-size: 10px;
   }
 
   /* SECTION shared */
@@ -1252,8 +1426,7 @@
       padding: 60px 24px 80px;
     }
     .hero-visual {
-      order: -1;
-      max-width: 280px;
+      max-width: 100%;
       justify-self: center;
     }
     .badge-section {
@@ -1324,32 +1497,38 @@
     </div>
   </div>
   <div class="hero-visual">
-    <div class="orbit"><span class="orbit-dot"></span></div>
-    <div class="orbit"><span class="orbit-dot"></span></div>
-    <div class="orbit"><span class="orbit-dot"></span></div>
-    <div class="badge-medallion">
-      <svg width="220" height="220" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#ffc66a"/>
-            <stop offset="50%" stop-color="#f5b042"/>
-            <stop offset="100%" stop-color="#c08820"/>
-          </linearGradient>
-          <radialGradient id="glowGrad">
-            <stop offset="0%" stop-color="#f5b042" stop-opacity="0.3"/>
-            <stop offset="100%" stop-color="#f5b042" stop-opacity="0"/>
-          </radialGradient>
-        </defs>
-        <circle cx="110" cy="110" r="105" fill="url(#glowGrad)"/>
-        <circle cx="110" cy="110" r="80" fill="none" stroke="url(#goldGrad)" stroke-width="2"/>
-        <circle cx="110" cy="110" r="68" fill="#1a1108"/>
-        <circle cx="110" cy="110" r="68" fill="none" stroke="url(#goldGrad)" stroke-width="0.5" stroke-dasharray="2 4"/>
-        <text x="110" y="92" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="32" font-weight="300" fill="url(#goldGrad)">CAIRA</text>
-        <line x1="60" y1="105" x2="160" y2="105" stroke="url(#goldGrad)" stroke-width="0.5"/>
-        <text x="110" y="125" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#a8a08e" letter-spacing="2">CERTIFIED · AI · READY</text>
-        <text x="110" y="138" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#a8a08e" letter-spacing="2">ACCOUNTANT</text>
-        <text x="110" y="160" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="url(#goldGrad)" font-weight="600">LEVEL III</text>
-      </svg>
+    <div class="video-placeholder">
+      <div class="video-frame" onclick="playVideo()" role="button" tabindex="0" aria-label="Play introduction video">
+        <span class="video-corner tl"></span>
+        <span class="video-corner tr"></span>
+        <span class="video-corner bl"></span>
+        <span class="video-corner br"></span>
+
+        <div class="video-meta-bar">
+          <div class="video-meta-left">
+            <span class="video-rec-dot"></span>
+            <span>FILM</span>
+          </div>
+          <div class="video-meta-right">02:34</div>
+        </div>
+
+        <button class="video-play-btn" aria-label="Play">
+          <svg width="22" height="26" viewBox="0 0 22 26" fill="none" aria-hidden="true">
+            <path d="M2 2L20 13L2 24V2Z" fill="currentColor"/>
+          </svg>
+        </button>
+
+        <div class="video-title-overlay">
+          <div class="video-chapter">CHAPTER 01 · INTRODUCTION</div>
+          <div class="video-title">Meet CAIRA — how accountants build with AI</div>
+        </div>
+
+        <div class="video-scan"></div>
+      </div>
+      <div class="video-caption">
+        <span class="video-caption-bullet">✦</span>
+        Featuring faculty from Microsoft, Big 4 and IMA
+      </div>
     </div>
   </div>
 </section>
@@ -1800,6 +1979,11 @@
 </footer>
 
 <script>
+  // ============ HERO VIDEO ============
+  function playVideo() {
+    alert('Video placeholder — in production this plays inline via Mux, Cloudflare Stream, or self-hosted HLS. The real intro film slots in here.');
+  }
+
   // ============ ASSESSMENT ============
   let answers = [];
 
