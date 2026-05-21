@@ -1,0 +1,946 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - Discover & Join Events</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+    
+    <style>
+        :root {
+            --navy-dark: #0A1628;
+            --navy-medium: #1a2942;
+            --navy-light: #2a3d5a;
+            --blue-bright: #0066FF;
+            --blue-hover: #0052CC;
+            --cyan-accent: #00D4FF;
+            --text-primary: #FFFFFF;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-tertiary: rgba(255, 255, 255, 0.5);
+            --card-bg: #1a2942;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--navy-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .app-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Header */
+        .header {
+            background: var(--navy-dark);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 48px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            background: rgba(10, 22, 40, 0.95);
+        }
+        
+        .header-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+        
+        .nav {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+        
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+        
+        .nav-link.active {
+            color: var(--text-primary);
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-primary {
+            background: var(--blue-bright);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--blue-hover);
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--text-primary);
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 48px 48px 96px;
+        }
+        
+        .content-wrapper {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        /* Hero Section */
+        .hero {
+            margin-bottom: 64px;
+        }
+        
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -1.5px;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            color: var(--text-secondary);
+            max-width: 600px;
+        }
+        
+        /* Search & Filters */
+        .search-bar-wrapper {
+            margin-bottom: 48px;
+        }
+        
+        .search-bar {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .search-input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 16px 20px 16px 48px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 16px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--blue-bright);
+        }
+        
+        .search-input::placeholder {
+            color: var(--text-tertiary);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-tertiary);
+        }
+        
+        .filter-tags {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-tag {
+            padding: 10px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .filter-tag:hover {
+            border-color: var(--blue-bright);
+        }
+        
+        .filter-tag.active {
+            background: var(--blue-bright);
+            border-color: var(--blue-bright);
+            color: white;
+        }
+        
+        /* Events Grid */
+        .events-section {
+            margin-bottom: 64px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+        
+        .section-header h2 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 28px;
+        }
+        
+        /* Event Card */
+        .event-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+        }
+        
+        .event-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--blue-bright);
+            box-shadow: 0 12px 40px rgba(0, 102, 255, 0.15);
+        }
+        
+        .event-image {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, var(--navy-light), var(--navy-medium));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-tertiary);
+            font-size: 14px;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .event-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 255, 255, 0.02) 10px,
+                rgba(255, 255, 255, 0.02) 20px
+            );
+        }
+        
+        .event-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            padding: 6px 12px;
+            background: var(--blue-bright);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .event-content {
+            padding: 24px;
+        }
+        
+        .event-meta {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .event-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .event-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.3;
+            letter-spacing: -0.3px;
+        }
+        
+        .event-description {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .event-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .event-attendees {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .attendee-avatars {
+            display: flex;
+            margin-left: -8px;
+        }
+        
+        .avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--navy-light);
+            border: 2px solid var(--card-bg);
+            margin-left: -8px;
+        }
+        
+        .event-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--cyan-accent);
+        }
+        
+        /* Event Detail Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            animation: fadeIn 0.2s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: var(--navy-medium);
+            border-radius: 20px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s;
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+        
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .modal-image {
+            width: 100%;
+            height: 380px;
+            background: linear-gradient(135deg, var(--navy-light), var(--navy-medium));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-tertiary);
+            font-size: 16px;
+            font-family: 'Courier New', monospace;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+        }
+        
+        .modal-body {
+            padding: 40px;
+        }
+        
+        .modal-header {
+            margin-bottom: 32px;
+        }
+        
+        .modal-title {
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            letter-spacing: -1px;
+        }
+        
+        .modal-meta {
+            display: flex;
+            gap: 32px;
+            flex-wrap: wrap;
+            font-size: 16px;
+        }
+        
+        .modal-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+        }
+        
+        .modal-meta-item strong {
+            color: var(--text-primary);
+        }
+        
+        .modal-section {
+            margin-bottom: 32px;
+        }
+        
+        .modal-section h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.3px;
+        }
+        
+        .modal-section p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 16px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .btn-large {
+            padding: 16px 32px;
+            font-size: 17px;
+            flex: 1;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+        }
+        
+        .empty-state h3 {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+        
+        .empty-state p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Sample event data
+        const eventsData = [
+            {
+                id: 1,
+                title: "AI & Machine Learning Summit 2026",
+                description: "Join industry leaders for deep dives into the latest AI breakthroughs and practical applications.",
+                date: "Jun 15, 2026",
+                time: "9:00 AM - 5:00 PM",
+                location: "San Francisco, CA",
+                format: "Hybrid",
+                category: "Technology",
+                attendees: 342,
+                price: "$199",
+                organizer: "Tech Innovators Group"
+            },
+            {
+                id: 2,
+                title: "Web3 Developer Workshop",
+                description: "Hands-on workshop covering smart contracts, DeFi protocols, and decentralized applications.",
+                date: "Jun 20, 2026",
+                time: "2:00 PM - 6:00 PM",
+                location: "Online",
+                format: "Online",
+                category: "Technology",
+                attendees: 156,
+                price: "Free",
+                organizer: "Blockchain Academy"
+            },
+            {
+                id: 3,
+                title: "Design Systems Masterclass",
+                description: "Learn to build and scale design systems from scratch. Perfect for designers and developers.",
+                date: "Jun 22, 2026",
+                time: "10:00 AM - 4:00 PM",
+                location: "New York, NY",
+                format: "In-person",
+                category: "Design",
+                attendees: 89,
+                price: "$149",
+                organizer: "Design Labs"
+            },
+            {
+                id: 4,
+                title: "Startup Founder Networking",
+                description: "Connect with fellow founders, share experiences, and build meaningful relationships.",
+                date: "Jun 18, 2026",
+                time: "6:00 PM - 9:00 PM",
+                location: "Austin, TX",
+                format: "In-person",
+                category: "Business",
+                attendees: 124,
+                price: "$25",
+                organizer: "Startup Austin"
+            },
+            {
+                id: 5,
+                title: "Product Management 101",
+                description: "Essential skills for aspiring and current product managers. From strategy to execution.",
+                date: "Jun 25, 2026",
+                time: "1:00 PM - 5:00 PM",
+                location: "Online",
+                format: "Online",
+                category: "Business",
+                attendees: 267,
+                price: "$99",
+                organizer: "PM School"
+            },
+            {
+                id: 6,
+                title: "Creative Coding with p5.js",
+                description: "Explore generative art and interactive experiences through code. Beginners welcome!",
+                date: "Jun 28, 2026",
+                time: "3:00 PM - 7:00 PM",
+                location: "Seattle, WA",
+                format: "Hybrid",
+                category: "Arts",
+                attendees: 72,
+                price: "$45",
+                organizer: "Code Arts Collective"
+            },
+            {
+                id: 7,
+                title: "Sustainable Business Practices",
+                description: "Learn how to integrate sustainability into your business model and drive positive impact.",
+                date: "Jul 2, 2026",
+                time: "9:00 AM - 1:00 PM",
+                location: "Boston, MA",
+                format: "In-person",
+                category: "Business",
+                attendees: 143,
+                price: "$129",
+                organizer: "Green Business Alliance"
+            },
+            {
+                id: 8,
+                title: "UX Research Deep Dive",
+                description: "Advanced techniques for conducting user research and translating insights into action.",
+                date: "Jul 5, 2026",
+                time: "11:00 AM - 3:00 PM",
+                location: "Online",
+                format: "Online",
+                category: "Design",
+                attendees: 198,
+                price: "$79",
+                organizer: "UX Research Hub"
+            }
+        ];
+
+        const categories = ["All", "Technology", "Design", "Business", "Arts"];
+        const formats = ["All Formats", "In-person", "Online", "Hybrid"];
+
+        function App() {
+            const [searchQuery, setSearchQuery] = useState("");
+            const [selectedCategory, setSelectedCategory] = useState("All");
+            const [selectedFormat, setSelectedFormat] = useState("All Formats");
+            const [selectedEvent, setSelectedEvent] = useState(null);
+            const [filteredEvents, setFilteredEvents] = useState(eventsData);
+
+            useEffect(() => {
+                let filtered = eventsData;
+
+                if (searchQuery) {
+                    filtered = filtered.filter(event =>
+                        event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        event.description.toLowerCase().includes(searchQuery.toLowerCase())
+                    );
+                }
+
+                if (selectedCategory !== "All") {
+                    filtered = filtered.filter(event => event.category === selectedCategory);
+                }
+
+                if (selectedFormat !== "All Formats") {
+                    filtered = filtered.filter(event => event.format === selectedFormat);
+                }
+
+                setFilteredEvents(filtered);
+            }, [searchQuery, selectedCategory, selectedFormat]);
+
+            return (
+                <div className="app-container">
+                    <Header />
+                    
+                    <main className="main-content">
+                        <div className="content-wrapper">
+                            <Hero />
+                            
+                            <SearchBar 
+                                searchQuery={searchQuery}
+                                setSearchQuery={setSearchQuery}
+                                selectedCategory={selectedCategory}
+                                setSelectedCategory={setSelectedCategory}
+                                selectedFormat={selectedFormat}
+                                setSelectedFormat={setSelectedFormat}
+                            />
+                            
+                            <EventsSection 
+                                events={filteredEvents}
+                                setSelectedEvent={setSelectedEvent}
+                            />
+                        </div>
+                    </main>
+
+                    {selectedEvent && (
+                        <EventDetailModal 
+                            event={selectedEvent}
+                            onClose={() => setSelectedEvent(null)}
+                        />
+                    )}
+                </div>
+            );
+        }
+
+        function Header() {
+            return (
+                <header className="header">
+                    <div className="header-content">
+                        <div className="logo">Events</div>
+                        
+                        <nav className="nav">
+                            <a className="nav-link active">Discover</a>
+                            <a className="nav-link">My Events</a>
+                            <a className="nav-link">Calendar</a>
+                        </nav>
+                        
+                        <div className="header-actions">
+                            <button className="btn btn-secondary">Sign In</button>
+                            <button className="btn btn-primary">Get Started</button>
+                        </div>
+                    </div>
+                </header>
+            );
+        }
+
+        function Hero() {
+            return (
+                <div className="hero">
+                    <h1>Discover Events<br/>That Matter</h1>
+                    <p>Connect with people, learn new skills, and experience unforgettable moments at events near you and online.</p>
+                </div>
+            );
+        }
+
+        function SearchBar({ searchQuery, setSearchQuery, selectedCategory, setSelectedCategory, selectedFormat, setSelectedFormat }) {
+            return (
+                <div className="search-bar-wrapper">
+                    <div className="search-bar">
+                        <div className="search-input-wrapper">
+                            <span className="search-icon">🔍</span>
+                            <input
+                                type="text"
+                                className="search-input"
+                                placeholder="Search events by name or keyword..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                    
+                    <div className="filter-tags">
+                        {categories.map(cat => (
+                            <div
+                                key={cat}
+                                className={`filter-tag ${selectedCategory === cat ? 'active' : ''}`}
+                                onClick={() => setSelectedCategory(cat)}
+                            >
+                                {cat}
+                            </div>
+                        ))}
+                        <div style={{ width: '24px' }}></div>
+                        {formats.map(format => (
+                            <div
+                                key={format}
+                                className={`filter-tag ${selectedFormat === format ? 'active' : ''}`}
+                                onClick={() => setSelectedFormat(format)}
+                            >
+                                {format}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+        function EventsSection({ events, setSelectedEvent }) {
+            return (
+                <section className="events-section">
+                    <div className="section-header">
+                        <h2>Upcoming Events</h2>
+                    </div>
+                    
+                    {events.length > 0 ? (
+                        <div className="events-grid">
+                            {events.map(event => (
+                                <EventCard 
+                                    key={event.id} 
+                                    event={event}
+                                    onClick={() => setSelectedEvent(event)}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="empty-state">
+                            <h3>No events found</h3>
+                            <p>Try adjusting your filters or search terms</p>
+                        </div>
+                    )}
+                </section>
+            );
+        }
+
+        function EventCard({ event, onClick }) {
+            return (
+                <div className="event-card" onClick={onClick}>
+                    <div className="event-image">
+                        <span>[ event image ]</span>
+                        <div className="event-badge">{event.format}</div>
+                    </div>
+                    
+                    <div className="event-content">
+                        <div className="event-meta">
+                            <div className="event-meta-item">
+                                📅 {event.date}
+                            </div>
+                            <div className="event-meta-item">
+                                📍 {event.location}
+                            </div>
+                        </div>
+                        
+                        <h3 className="event-title">{event.title}</h3>
+                        
+                        <p className="event-description">{event.description}</p>
+                        
+                        <div className="event-footer">
+                            <div className="event-attendees">
+                                <div className="attendee-avatars">
+                                    <div className="avatar"></div>
+                                    <div className="avatar"></div>
+                                    <div className="avatar"></div>
+                                </div>
+                                <span>{event.attendees} attending</span>
+                            </div>
+                            
+                            <div className="event-price">{event.price}</div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function EventDetailModal({ event, onClose }) {
+            return (
+                <div className="modal-overlay" onClick={onClose}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <button className="modal-close" onClick={onClose}>×</button>
+                        
+                        <div className="modal-image">
+                            <span>[ event featured image ]</span>
+                            <div className="event-badge">{event.format}</div>
+                        </div>
+                        
+                        <div className="modal-body">
+                            <div className="modal-header">
+                                <h1 className="modal-title">{event.title}</h1>
+                                
+                                <div className="modal-meta">
+                                    <div className="modal-meta-item">
+                                        <span>📅</span>
+                                        <div>
+                                            <strong>{event.date}</strong>
+                                            <div>{event.time}</div>
+                                        </div>
+                                    </div>
+                                    <div className="modal-meta-item">
+                                        <span>📍</span>
+                                        <div>
+                                            <strong>{event.location}</strong>
+                                        </div>
+                                    </div>
+                                    <div className="modal-meta-item">
+                                        <span>👥</span>
+                                        <div>
+                                            <strong>{event.attendees} attending</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className="modal-section">
+                                <h3>About This Event</h3>
+                                <p>{event.description}</p>
+                                <p style={{ marginTop: '16px' }}>
+                                    This event is organized by {event.organizer} and offers a unique opportunity to connect with like-minded individuals in the {event.category.toLowerCase()} space. Whether you're attending {event.format === 'Online' ? 'virtually' : event.format === 'Hybrid' ? 'in-person or virtually' : 'in person'}, you'll gain valuable insights and make meaningful connections.
+                                </p>
+                            </div>
+                            
+                            <div className="modal-section">
+                                <h3>What You'll Learn</h3>
+                                <p>• Deep insights into the latest trends and best practices</p>
+                                <p>• Hands-on experience with practical applications</p>
+                                <p>• Networking opportunities with industry professionals</p>
+                                <p>• Access to exclusive resources and materials</p>
+                            </div>
+                            
+                            <div className="modal-actions">
+                                <button className="btn btn-primary btn-large">
+                                    Register Now - {event.price}
+                                </button>
+                                <button className="btn btn-secondary btn-large">
+                                    Save Event
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
